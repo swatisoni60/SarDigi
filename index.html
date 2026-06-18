@@ -712,18 +712,20 @@ function submitOrder(){
   // Read first file as base64 if exists (EmailJS supports one attachment)
   function sendEmail(attachmentData, attachmentName){
     const templateParams = {
-      to_email:   'sardigiprints@gmail.com',
-      from_name:  name,
-      from_phone: phone,
-      from_email: email || 'Not provided',
-      service:    service || 'Not specified',
-      quantity:   qty || 'Not specified',
-      size:       size || 'Not specified',
-      file_names: fileNames,
-      notes:      notes || 'None',
-      order_ref:  ref,
-      attachment: attachmentData || '',
-      attachment_name: attachmentName || ''
+      message: [
+        '🖨️ NEW ORDER REQUEST — SARDIGI PRINTS',
+        '─────────────────────────────',
+        'Name:     ' + name,
+        'Phone:    ' + phone,
+        'Email:    ' + (email || 'Not provided'),
+        'Service:  ' + (service || 'Not specified'),
+        'Quantity: ' + (qty || 'Not specified'),
+        'Size:     ' + (size || 'Not specified'),
+        'Files:    ' + fileNames,
+        'Notes:    ' + (notes || 'None'),
+        '─────────────────────────────',
+        'Order Ref: ' + ref
+      ].join('\n')
     };
 
     emailjs.send('service_whj0tp7', 'template_25byhap', templateParams)
@@ -790,18 +792,16 @@ function submitQuote(){
   btn.disabled = true;
 
   const templateParams = {
-    to_email:   'sardigiprints@gmail.com',
-    from_name:  name,
-    from_phone: phone,
-    from_email: 'Not provided',
-    service:    service || 'Not specified',
-    quantity:   'Not specified',
-    size:       'Not specified',
-    file_names: 'Quote request — no files',
-    notes:      message || 'None',
-    order_ref:  ref,
-    attachment: '',
-    attachment_name: ''
+    message: [
+      '💬 QUOTE REQUEST — SARDIGI PRINTS',
+      '─────────────────────────────',
+      'Name:    ' + name,
+      'Phone:   ' + phone,
+      'Service: ' + (service || 'Not specified'),
+      'Message: ' + (message || 'None'),
+      '─────────────────────────────',
+      'Ref: ' + ref
+    ].join('\n')
   };
 
   emailjs.send('service_whj0tp7', 'template_25byhap', templateParams)
