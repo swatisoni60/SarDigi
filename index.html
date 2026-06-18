@@ -483,13 +483,13 @@
         <label>Size / Dimensions</label>
         <input type="text" id="orderSize" placeholder="e.g. 4 feet x 2 feet, A4, etc.">
       </div>
-      <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
-        <div class="upload-zone-icon">📁</div>
-        <div class="upload-zone-text" id="uploadZoneText">Click to upload artwork files</div>
-        <div class="upload-zone-formats">Accepted: PDF, AI, PSD, CDR, JPG, PNG, EPS (Max 50MB)</div>
-        <input type="file" id="fileInput" style="display:none" multiple accept=".pdf,.ai,.psd,.cdr,.jpg,.jpeg,.png,.eps" onchange="handleFileSelect(this)">
+      <div class="form-group">
+        <label>📁 Share Artwork File (Google Drive / Dropbox Link)</label>
+        <input type="url" id="orderFileLink" placeholder="Paste your Google Drive or Dropbox share link here">
+        <div style="font-size:0.78rem;color:#aaa;margin-top:5px">
+          📌 How to share: Upload your file to Google Drive → Right click → "Share" → "Anyone with link" → Copy link → Paste here
+        </div>
       </div>
-      <div class="uploaded-files-list" id="uploadedFilesList"></div>
       <div class="form-group">
         <label>Printing Instructions / Notes</label>
         <textarea id="orderNotes" rows="3" placeholder="Mention paper type, lamination, finishing, delivery date, or any special instructions..."></textarea>
@@ -699,9 +699,7 @@ function submitOrder(){
     return;
   }
 
-  const fileNames = selectedFiles.length > 0
-    ? selectedFiles.map(f=>f.name).join(', ')
-    : 'No files attached';
+  const fileLink = document.getElementById('orderFileLink').value.trim();
 
   const ref = 'SAR-' + Date.now().toString().slice(-6);
 
@@ -723,7 +721,7 @@ function submitOrder(){
         'Service:  ' + (service || 'Not specified'),
         'Quantity: ' + (qty || 'Not specified'),
         'Size:     ' + (size || 'Not specified'),
-        'Files:    ' + fileNames,
+        'Files:    ' + (fileLink || 'No link provided'),
         'Notes:    ' + (notes || 'None'),
         '─────────────────────────────',
         'Order Ref: ' + ref
@@ -744,7 +742,7 @@ function submitOrder(){
           service ? `🛠️ *Service:* ${service}` : '',
           qty ? `🔢 *Qty:* ${qty}` : '',
           size ? `📐 *Size:* ${size}` : '',
-          `📎 *Files:* ${fileNames}`,
+          fileLink ? `📎 *File Link:* ${fileLink}` : '📎 *Files:* Not provided',
           notes ? `📝 *Notes:* ${notes}` : '',
           `🔖 *Ref:* ${ref}`,
           '',
