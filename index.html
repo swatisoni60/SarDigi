@@ -710,7 +710,7 @@ function submitOrder(){
   btn.disabled = true;
 
   // Read first file as base64 if exists (EmailJS supports one attachment)
-  function sendEmail(attachmentData, attachmentName){
+  function sendEmail(){
     const templateParams = {
       message: [
         '🖨️ NEW ORDER REQUEST — SARDIGI PRINTS',
@@ -761,16 +761,7 @@ function submitOrder(){
       });
   }
 
-  if(selectedFiles.length > 0){
-    const reader = new FileReader();
-    reader.onload = function(e){
-      const base64 = e.target.result; // full data URL
-      sendEmail(base64, selectedFiles[0].name);
-    };
-    reader.readAsDataURL(selectedFiles[0]);
-  } else {
-    sendEmail('', '');
-  }
+  sendEmail();
 }
 
 // ── QUOTE SUBMIT (Contact form) ──
