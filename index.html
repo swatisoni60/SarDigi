@@ -155,19 +155,28 @@
   .services-bg{background:var(--black)}
   .services-bg .section-title{color:#fff}
   .services-bg .section-sub{color:rgba(255,255,255,0.5)}
-  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(255,255,255,0.08);margin-top:3rem;border:1px solid rgba(255,255,255,0.08)}
-  .service-card{background:var(--black);padding:2rem;transition:background 0.3s;cursor:default;position:relative;overflow:hidden}
-  .service-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--red);transition:height 0.3s}
-  .service-card:hover::before{height:100%}
-  .service-card:hover{background:#1a0000}
-  .service-icon{width:48px;height:48px;background:rgba(204,0,0,0.15);border:1px solid rgba(204,0,0,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;font-size:1.5rem}
-  .service-title{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:0.5rem}
-  .service-desc{font-size:0.88rem;color:rgba(255,255,255,0.5);line-height:1.65}
 
-  .service-image{width:100%;height:180px;overflow:hidden;border-radius:8px;margin-bottom:1rem}
-  .service-image img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
-  .service-card:hover .service-image img{transform:scale(1.08)}
-  .service-card{padding:1rem}
+  /* Animated service slider */
+  .services-slider-wrap{position:relative;margin-top:3rem;overflow:hidden}
+  .services-slider-track{display:flex;gap:0;width:max-content;animation:servicesScroll 32s linear infinite}
+  .services-slider-track:hover{animation-play-state:paused}
+  @keyframes servicesScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .services-slider-wrap::before,.services-slider-wrap::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none}
+  .services-slider-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
+  .services-slider-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
+
+  .service-card{background:#111;border:1px solid rgba(255,255,255,0.08);padding:0;transition:all 0.35s;cursor:default;position:relative;overflow:hidden;flex:0 0 280px;margin:0 10px;border-radius:10px}
+  .service-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--red);transition:height 0.35s;z-index:2}
+  .service-card:hover::before{height:100%}
+  .service-card:hover{background:#1a0000;border-color:rgba(204,0,0,0.3);transform:translateY(-6px);box-shadow:0 12px 32px rgba(204,0,0,0.2)}
+  .service-image{width:100%;height:190px;overflow:hidden}
+  .service-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .service-card:hover .service-image img{transform:scale(1.1)}
+  .service-body{padding:1.25rem 1.25rem 1.5rem}
+  .service-icon-row{display:flex;align-items:center;gap:10px;margin-bottom:0.6rem}
+  .service-icon{width:36px;height:36px;background:rgba(204,0,0,0.15);border:1px solid rgba(204,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;border-radius:4px}
+  .service-title{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.4rem}
+  .service-desc{font-size:0.83rem;color:rgba(255,255,255,0.5);line-height:1.6}
 
   /* CLIENTS */
   .clients-bg{background:var(--gray)}
@@ -201,6 +210,35 @@
   .machine-card:hover img{transform:scale(1.05)}
   .machine-name{padding:15px 15px 4px;text-align:center;font-weight:700;font-size:15px;color:#222}
   .machine-cta{padding:0 15px 16px;text-align:center;font-size:0.78rem;color:var(--red);font-weight:600;letter-spacing:0.3px}
+  .machine-card{cursor:pointer}
+  .machine-click-badge{position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:0.68rem;font-weight:700;padding:3px 8px;border-radius:100px;letter-spacing:0.5px;opacity:0;transition:opacity .25s;z-index:2}
+  .machine-slide:hover .machine-click-badge{opacity:1}
+
+  /* PRODUCT MODAL */
+  .prod-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:10000;align-items:center;justify-content:center;padding:1rem}
+  .prod-modal-overlay.open{display:flex}
+  .prod-modal{background:#fff;border-radius:16px;max-width:860px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:popIn .35s ease}
+  .prod-modal-close{position:sticky;top:1rem;float:right;margin:1rem 1rem 0 0;width:36px;height:36px;border-radius:50%;border:none;background:#f0f0f0;color:#333;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:.2s}
+  .prod-modal-close:hover{background:var(--red);color:#fff}
+  .prod-modal-hero{width:100%;height:300px;overflow:hidden;border-radius:16px 16px 0 0;background:#eee;display:flex;align-items:center;justify-content:center;position:relative}
+  .prod-modal-hero img{width:100%;height:100%;object-fit:cover}
+  .prod-modal-hero-placeholder{font-size:4rem;color:#ccc}
+  .prod-modal-body{padding:2rem 2rem 2.5rem}
+  .prod-modal-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(204,0,0,0.1);color:var(--red);font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:0.75rem}
+  .prod-modal-title{font-size:1.8rem;font-weight:900;color:#111;margin-bottom:1rem}
+  .prod-modal-desc{color:#555;line-height:1.8;font-size:0.95rem;margin-bottom:1.5rem}
+  .prod-modal-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:1.5rem}
+  .prod-modal-gallery-img{border-radius:8px;overflow:hidden;aspect-ratio:4/3;background:#f5f5f5;display:flex;align-items:center;justify-content:center;position:relative}
+  .prod-modal-gallery-img img{width:100%;height:100%;object-fit:cover}
+  .prod-modal-gallery-placeholder{font-size:1.8rem;color:#ccc;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .prod-modal-gallery-placeholder span{font-size:0.7rem;color:#aaa;font-weight:600;letter-spacing:0.5px}
+  .prod-modal-gallery-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.65);color:#fff;font-size:0.7rem;padding:5px 8px;font-weight:600}
+  .prod-modal-uses{margin-bottom:1.5rem}
+  .prod-modal-uses h4{font-size:1rem;font-weight:700;color:#111;margin-bottom:0.6rem}
+  .prod-modal-uses ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+  .prod-modal-uses li{background:#f5f5f5;border-radius:100px;padding:4px 14px;font-size:0.82rem;color:#444;font-weight:500}
+  .prod-modal-cta{display:flex;gap:0.75rem;flex-wrap:wrap}
+  @media(max-width:600px){.prod-modal-body{padding:1.25rem 1.25rem 2rem}.prod-modal-title{font-size:1.4rem}.prod-modal-hero{height:200px}}
   .machines-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1.5px solid #e0e0e0;background:#fff;color:var(--red);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.1);transition:.2s;z-index:2}
   .machines-arrow:hover{background:var(--red);color:#fff;border-color:var(--red)}
   .machines-arrow.prev{left:-8px}
@@ -413,11 +451,12 @@
       <h1 class="reveal-title">Print. Brand.<br><span>Make It Loud.</span></h1>
       <p class="hero-sub hero-anim-2">Sardigi Prints delivers cutting-edge signage, digital printing, acrylic fabrication, and branding solutions trusted by India's top retail brands.</p>
       <div class="hero-tags hero-anim-3">
-        <span class="hero-tag">Acrylic Letters</span>
-        <span class="hero-tag">LED Signboards</span>
-        <span class="hero-tag">Vehicle Branding</span>
-        <span class="hero-tag">Eco Solvent Printing</span>
+        <span class="hero-tag">Banner Prints</span>
         <span class="hero-tag">Laser Cutting</span>
+        <span class="hero-tag">Router Cutting</span>
+        <span class="hero-tag">Shop Boards</span>
+        <span class="hero-tag">Vinyl Printing</span>
+        <span class="hero-tag">Pole Branding</span>
       </div>
       <div class="hero-btns hero-anim-4">
         <a href="#upload" class="btn-primary btn">📤 Upload Artwork</a>
@@ -457,32 +496,123 @@
   <div class="container">
     <span class="section-label" style="color:var(--red)">What We Do</span>
     <h2 class="section-title" style="color:#fff">One Stop Branding Solutions</h2>
-    <p class="section-sub">From digital printing to large-format signage — all under one roof in Mumbai.</p>
-    <div class="services-grid reveal">
+    <p class="section-sub">From banner prints to pole branding — all under one roof in Mumbai.</p>
+  </div>
+  <div class="services-slider-wrap reveal" style="margin-top:2.5rem">
+    <div class="services-slider-track" id="servicesTrack">
+      <!-- Original set -->
       <div class="service-card">
-        <div class="service-image"><img src="images/acrylic-letters.jpg" alt="Acrylic Letters"></div>
-        <div class="service-title">Acrylic Letters & Displays</div>
-        <div class="service-desc">Premium laser-cut acrylic letters and displays.</div>
+        <div class="service-image"><img src="images/banner-prints.jpg" alt="Banner Prints"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🖨️</div><div class="service-title">Banner Prints</div></div>
+          <div class="service-desc">High-quality large-format banners in eco solvent, UV and latex inks — vibrant, weather-resistant, and ready on time.</div>
+        </div>
       </div>
       <div class="service-card">
-        <div class="service-image"><img src="images/led-signboard.jpg" alt="LED Signboard"></div>
-        <div class="service-title">LED & Glow Sign Boards</div>
-        <div class="service-desc">High-brightness LED signboards and glow signs.</div>
+        <div class="service-image"><img src="images/laser-cutting.jpg" alt="Laser Cutting"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">✂️</div><div class="service-title">Laser Cutting</div></div>
+          <div class="service-desc">Precision laser cutting on acrylic, wood, foam, and fabric for signage, displays, and custom shapes.</div>
+        </div>
       </div>
       <div class="service-card">
-        <div class="service-image"><img src="images/digital-printing.jpg" alt="Digital Printing"></div>
-        <div class="service-title">Digital Printing</div>
-        <div class="service-desc">Eco solvent, HP Latex and UV printing solutions.</div>
+        <div class="service-image"><img src="images/router-cutting.jpg" alt="Router Cutting"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">⚙️</div><div class="service-title">Router Cutting</div></div>
+          <div class="service-desc">CNC router cutting for sunboards, ACPs, thick foam boards and dimensional letters with fine detailing.</div>
+        </div>
       </div>
       <div class="service-card">
-        <div class="service-image"><img src="images/vehicle-branding.jpg" alt="Vehicle Branding"></div>
-        <div class="service-title">Vehicle Branding</div>
-        <div class="service-desc">Full and partial vehicle wraps and fleet branding.</div>
+        <div class="service-image"><img src="images/shop-boards.jpg" alt="Shop Boards"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🏪</div><div class="service-title">Shop Boards</div></div>
+          <div class="service-desc">Custom shop fronts, fascia boards, name boards and retail display boards that make your business stand out.</div>
+        </div>
       </div>
       <div class="service-card">
-        <div class="service-image"><img src="images/custom-gifts.jpg" alt="Customized Gifts"></div>
-        <div class="service-title">Customized Gifting</div>
-        <div class="service-desc">Corporate gifts and personalized merchandise.</div>
+        <div class="service-image"><img src="images/vinyl-cutting.jpg" alt="Vinyl Cutting"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🔪</div><div class="service-title">Vinyl Cutting</div></div>
+          <div class="service-desc">Precision-cut vinyl stickers, lettering, and decals for windows, walls, vehicles and promotional use.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/paper-layout.jpg" alt="Paper Layout"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">📄</div><div class="service-title">Paper Layout</div></div>
+          <div class="service-desc">Professional paper printing — catalogues, brochures, leaflets, posters, and stationery with sharp detail.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/vinyl-printing.jpg" alt="Vinyl Printing"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🖼️</div><div class="service-title">Vinyl Printing</div></div>
+          <div class="service-desc">Full-colour vinyl prints for wall graphics, floor decals, retail branding and event backdrops.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/pole-branding.jpg" alt="Pole Branding"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🚩</div><div class="service-title">Pole Branding</div></div>
+          <div class="service-desc">Eye-catching pole banners and street branding solutions for events, retail zones and city activations.</div>
+        </div>
+      </div>
+      <!-- Duplicate set for seamless loop -->
+      <div class="service-card">
+        <div class="service-image"><img src="images/banner-prints.jpg" alt="Banner Prints"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🖨️</div><div class="service-title">Banner Prints</div></div>
+          <div class="service-desc">High-quality large-format banners in eco solvent, UV and latex inks — vibrant, weather-resistant, and ready on time.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/laser-cutting.jpg" alt="Laser Cutting"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">✂️</div><div class="service-title">Laser Cutting</div></div>
+          <div class="service-desc">Precision laser cutting on acrylic, wood, foam, and fabric for signage, displays, and custom shapes.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/router-cutting.jpg" alt="Router Cutting"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">⚙️</div><div class="service-title">Router Cutting</div></div>
+          <div class="service-desc">CNC router cutting for sunboards, ACPs, thick foam boards and dimensional letters with fine detailing.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/shop-boards.jpg" alt="Shop Boards"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🏪</div><div class="service-title">Shop Boards</div></div>
+          <div class="service-desc">Custom shop fronts, fascia boards, name boards and retail display boards that make your business stand out.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/vinyl-cutting.jpg" alt="Vinyl Cutting"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🔪</div><div class="service-title">Vinyl Cutting</div></div>
+          <div class="service-desc">Precision-cut vinyl stickers, lettering, and decals for windows, walls, vehicles and promotional use.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/paper-layout.jpg" alt="Paper Layout"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">📄</div><div class="service-title">Paper Layout</div></div>
+          <div class="service-desc">Professional paper printing — catalogues, brochures, leaflets, posters, and stationery with sharp detail.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/vinyl-printing.jpg" alt="Vinyl Printing"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🖼️</div><div class="service-title">Vinyl Printing</div></div>
+          <div class="service-desc">Full-colour vinyl prints for wall graphics, floor decals, retail branding and event backdrops.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-image"><img src="images/pole-branding.jpg" alt="Pole Branding"></div>
+        <div class="service-body">
+          <div class="service-icon-row"><div class="service-icon">🚩</div><div class="service-title">Pole Branding</div></div>
+          <div class="service-desc">Eye-catching pole banners and street branding solutions for events, retail zones and city activations.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -552,12 +682,12 @@
       <button class="machines-arrow prev" onclick="scrollMachines(-1)" aria-label="Previous">&#8592;</button>
       <button class="machines-arrow next" onclick="scrollMachines(1)" aria-label="Next">&#8594;</button>
       <div class="machines-track" id="machinesTrack">
-        <div class="machine-slide"><div class="machine-card"><div class="machine-icon"><img src="images/uv-flatbed-printer.jpg" alt="UV Flat Bed Printer"></div><div class="machine-name">UV Flat Bed Printer</div><div class="machine-cta">For costing information, place order</div></div></div>
-        <div class="machine-slide"><div class="machine-card"><div class="machine-icon"><img src="images/eco-epson-printer.jpg" alt="Eco Epson Printer"></div><div class="machine-name">Eco Epson Printer</div><div class="machine-cta">For costing information, place order</div></div></div>
-        <div class="machine-slide"><div class="machine-card"><div class="machine-icon"><img src="images/uv-roll-to-roll-printer.jpg" alt="UV Roll to Roll Printer"></div><div class="machine-name">UV Roll to Roll Printer</div><div class="machine-cta">For costing information, place order</div></div></div>
-        <div class="machine-slide"><div class="machine-card"><div class="machine-icon"><img src="images/laser-cutting-machine.jpg" alt="Laser Cutting Machine"></div><div class="machine-name">Laser Cutting Machine</div><div class="machine-cta">For costing information, place order</div></div></div>
-        <div class="machine-slide"><div class="machine-card"><div class="machine-icon"><img src="images/router-cnc-machine.jpg" alt="Router CNC Machine"></div><div class="machine-name">Router CNC Machine</div><div class="machine-cta">For costing information, place order</div></div></div>
-        <div class="machine-slide"><div class="machine-card"><div class="machine-icon"><img src="images/vinyl-cutting-machine.jpg" alt="Vinyl Cutting Machine"></div><div class="machine-name">Vinyl Cutting Machine</div><div class="machine-cta">For costing information, place order</div></div></div>
+        <div class="machine-slide" onclick="openProdModal('uv-flatbed')"><div class="machine-card" style="position:relative"><span class="machine-click-badge">TAP TO SEE PRODUCTS</span><div class="machine-icon"><img src="images/uv-flatbed-printer.jpg" alt="UV Flat Bed Printer"></div><div class="machine-name">UV Flat Bed Printer</div><div class="machine-cta">Tap to see what we produce →</div></div></div>
+        <div class="machine-slide" onclick="openProdModal('eco-epson')"><div class="machine-card" style="position:relative"><span class="machine-click-badge">TAP TO SEE PRODUCTS</span><div class="machine-icon"><img src="images/eco-epson-printer.jpg" alt="Eco Epson Printer"></div><div class="machine-name">Eco Epson Printer</div><div class="machine-cta">Tap to see what we produce →</div></div></div>
+        <div class="machine-slide" onclick="openProdModal('uv-roll')"><div class="machine-card" style="position:relative"><span class="machine-click-badge">TAP TO SEE PRODUCTS</span><div class="machine-icon"><img src="images/uv-roll-to-roll-printer.jpg" alt="UV Roll to Roll Printer"></div><div class="machine-name">UV Roll to Roll Printer</div><div class="machine-cta">Tap to see what we produce →</div></div></div>
+        <div class="machine-slide" onclick="openProdModal('laser')"><div class="machine-card" style="position:relative"><span class="machine-click-badge">TAP TO SEE PRODUCTS</span><div class="machine-icon"><img src="images/laser-cutting-machine.jpg" alt="Laser Cutting Machine"></div><div class="machine-name">Laser Cutting Machine</div><div class="machine-cta">Tap to see what we produce →</div></div></div>
+        <div class="machine-slide" onclick="openProdModal('router')"><div class="machine-card" style="position:relative"><span class="machine-click-badge">TAP TO SEE PRODUCTS</span><div class="machine-icon"><img src="images/router-cnc-machine.jpg" alt="Router CNC Machine"></div><div class="machine-name">Router CNC Machine</div><div class="machine-cta">Tap to see what we produce →</div></div></div>
+        <div class="machine-slide" onclick="openProdModal('vinyl-cut')"><div class="machine-card" style="position:relative"><span class="machine-click-badge">TAP TO SEE PRODUCTS</span><div class="machine-icon"><img src="images/vinyl-cutting-machine.jpg" alt="Vinyl Cutting Machine"></div><div class="machine-name">Vinyl Cutting Machine</div><div class="machine-cta">Tap to see what we produce →</div></div></div>
       </div>
       <div class="machines-dots" id="machinesDots"></div>
     </div>
@@ -704,13 +834,16 @@
           <label>Product / Service *</label>
           <select id="orderService">
             <option value="">Select service...</option>
-            <option>Acrylic Letters</option>
+            <option>Banner Prints</option>
+            <option>Laser Cutting</option>
+            <option>Router Cutting</option>
+            <option>Shop Boards</option>
+            <option>Vinyl Cutting</option>
+            <option>Paper Layout</option>
+            <option>Vinyl Printing</option>
+            <option>Pole Branding</option>
             <option>LED Signboard</option>
-            <option>Eco Solvent Printing</option>
             <option>Vehicle Branding</option>
-            <option>Visiting Cards / Stationery</option>
-            <option>Sunboard / Vinyl Printing</option>
-            <option>Floor / Retail Branding</option>
             <option>Customized Gifts</option>
             <option>Other</option>
           </select>
@@ -810,9 +943,12 @@
             <label>Service Required</label>
             <select id="quoteServiceInput" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.15);color:#fff">
               <option value="">Select...</option>
-              <option>Signage & Branding</option>
-              <option>Digital Printing</option>
-              <option>Acrylic / Fabrication</option>
+              <option>Banner Prints</option>
+              <option>Laser / Router Cutting</option>
+              <option>Shop Boards</option>
+              <option>Vinyl Cutting & Printing</option>
+              <option>Paper Layout</option>
+              <option>Pole Branding</option>
               <option>Vehicle Branding</option>
               <option>Retail Store Setup</option>
               <option>Customized Gifts</option>
@@ -845,12 +981,12 @@
       <div>
         <div class="footer-col-title">Services</div>
         <ul class="footer-links">
-          <li><a href="#services">Acrylic Letters</a></li>
-          <li><a href="#services">LED Signboards</a></li>
-          <li><a href="#services">Eco Solvent Print</a></li>
-          <li><a href="#services">Vehicle Branding</a></li>
+          <li><a href="#services">Banner Prints</a></li>
           <li><a href="#services">Laser Cutting</a></li>
-          <li><a href="#services">Custom Gifts</a></li>
+          <li><a href="#services">Router Cutting</a></li>
+          <li><a href="#services">Shop Boards</a></li>
+          <li><a href="#services">Vinyl Printing</a></li>
+          <li><a href="#services">Pole Branding</a></li>
         </ul>
       </div>
       <div>
@@ -882,6 +1018,31 @@
     </div>
   </div>
 </footer>
+
+<!-- PRODUCT MODAL -->
+<div class="prod-modal-overlay" id="prodModal" onclick="closeProdModal(event)">
+  <div class="prod-modal" id="prodModalBox">
+    <button class="prod-modal-close" onclick="closeProdModal()">✕</button>
+    <div class="prod-modal-hero" id="prodModalHero">
+      <div class="prod-modal-hero-placeholder" id="prodModalHeroPlaceholder"></div>
+      <img id="prodModalHeroImg" src="" alt="" style="display:none">
+    </div>
+    <div class="prod-modal-body">
+      <div class="prod-modal-tag" id="prodModalTag">Our Equipment</div>
+      <h2 class="prod-modal-title" id="prodModalTitle"></h2>
+      <p class="prod-modal-desc" id="prodModalDesc"></p>
+      <div class="prod-modal-gallery" id="prodModalGallery"></div>
+      <div class="prod-modal-uses" id="prodModalUsesWrap">
+        <h4>What We Produce With This Machine</h4>
+        <ul id="prodModalUses"></ul>
+      </div>
+      <div class="prod-modal-cta">
+        <a href="https://wa.me/919870752589?text=Hello%20Sardigi%20Prints%2C%20I%20need%20a%20quote%20for%20printing." class="btn-primary btn" target="_blank" style="font-size:0.9rem;padding:0.7rem 1.5rem">💬 WhatsApp for Quote</a>
+        <a href="#upload" class="btn-outline btn" onclick="closeProdModal()" style="font-size:0.9rem;padding:0.7rem 1.5rem;border-color:#ccc;color:#333">📤 Upload Artwork</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- FLOATING BUTTONS -->
 <a class="wa-btn" href="https://wa.me/919870752589?text=Hello%20Sardigi%20Prints%2C%20I%20need%20a%20quote." target="_blank" title="WhatsApp Us">💬</a>
@@ -1161,6 +1322,138 @@ function submitQuote(){
 }
 </script>
 <script>
+/* ── PRODUCT MODAL DATA ── */
+const MACHINE_DATA = {
+  'uv-flatbed': {
+    name: 'UV Flat Bed Printer',
+    emoji: '🖨️',
+    desc: 'Our UV Flatbed Printer uses ultraviolet light to cure ink instantly on almost any flat surface — rigid or flexible. It produces vivid, scratch-resistant prints directly onto acrylic, glass, metal, wood, foam, tiles, and more without any substrate preparation.',
+    heroImg: 'images/uv-flatbed-printer.jpg',
+    gallery: [
+      { img: 'images/uv-flatbed-product-1.jpg', label: 'Acrylic Board Prints' },
+      { img: 'images/uv-flatbed-product-2.jpg', label: 'Metal Panel Prints' },
+      { img: 'images/uv-flatbed-product-3.jpg', label: 'Foam Board Signage' },
+      { img: 'images/uv-flatbed-product-4.jpg', label: 'Glass Printing' },
+    ],
+    uses: ['Acrylic Boards','Metal Panels','Wood Prints','Foam Boards','Tiles','Glass Panels','PVC Boards','Display Stands','Photo Plaques','Door Nameplates']
+  },
+  'eco-epson': {
+    name: 'Eco Epson Printer',
+    emoji: '🖥️',
+    desc: 'Our Eco Solvent Epson Printer delivers sharp, durable prints on flex, vinyl, and banner media. It uses low-odour eco-solvent inks that are waterproof and UV-resistant — ideal for outdoor banners, vehicle graphics, retail displays, and window graphics.',
+    heroImg: 'images/eco-epson-printer.jpg',
+    gallery: [
+      { img: 'images/eco-epson-product-1.jpg', label: 'Flex Banners' },
+      { img: 'images/eco-epson-product-2.jpg', label: 'Vinyl Window Graphics' },
+      { img: 'images/eco-epson-product-3.jpg', label: 'Vehicle Stickers' },
+      { img: 'images/eco-epson-product-4.jpg', label: 'Backlit Flex Prints' },
+    ],
+    uses: ['Flex Banners','Vinyl Stickers','Window Graphics','Vehicle Decals','Star Flex Backlit','Outdoor Hoardings','Pole Banners','Event Backdrops','Shop Fascia','Roll-Up Stands']
+  },
+  'uv-roll': {
+    name: 'UV Roll to Roll Printer',
+    emoji: '📜',
+    desc: 'Our UV Roll-to-Roll Printer handles wide-format flexible media at high speed while curing ink instantly with UV light. Perfect for premium roll-up prints, high-resolution vinyl wraps, PVC banners, and self-adhesive materials that need exceptional colour accuracy.',
+    heroImg: 'images/uv-roll-to-roll-printer.jpg',
+    gallery: [
+      { img: 'images/uv-roll-product-1.jpg', label: 'Roll-Up Banner Stands' },
+      { img: 'images/uv-roll-product-2.jpg', label: 'PVC Banner Prints' },
+      { img: 'images/uv-roll-product-3.jpg', label: 'Self-Adhesive Vinyl' },
+      { img: 'images/uv-roll-product-4.jpg', label: 'Vehicle Wraps' },
+    ],
+    uses: ['Roll-Up Banners','Vehicle Wraps','Self-Adhesive Vinyl','PVC Flex Banners','Canvas Prints','Floor Graphics','Wallpapers','Textile Banners','Transparency Film','Frosted Glass Film']
+  },
+  'laser': {
+    name: 'Laser Cutting Machine',
+    emoji: '⚡',
+    desc: 'Our CO2 Laser Cutting Machine achieves ultra-precise cuts and engravings on a wide variety of materials. It can engrave fine details, cut intricate shapes, and create clean edge finishes on acrylic, wood, MDF, leather, fabric, and more.',
+    heroImg: 'images/laser-cutting-machine.jpg',
+    gallery: [
+      { img: 'images/laser-product-1.jpg', label: 'Acrylic Letter Signs' },
+      { img: 'images/laser-product-2.jpg', label: 'Wooden Engravings' },
+      { img: 'images/laser-product-3.jpg', label: 'Custom Acrylic Displays' },
+      { img: 'images/laser-product-4.jpg', label: 'MDF Cutouts' },
+    ],
+    uses: ['Acrylic Letters','Wooden Name Boards','Engraved Awards','MDF Displays','Fabric Cutting','Leather Engraving','Stencils','Frosted Acrylic Panels','Keychains','Box Packaging']
+  },
+  'router': {
+    name: 'Router CNC Machine',
+    emoji: '🔧',
+    desc: 'Our CNC Router Machine cuts and shapes thick, rigid materials with high precision. It handles sunboards, ACPs, solid acrylic, foam boards, and aluminium composites to produce dimensional signs, 3D letters, and structured display elements.',
+    heroImg: 'images/router-cnc-machine.jpg',
+    gallery: [
+      { img: 'images/router-product-1.jpg', label: '3D Dimensional Letters' },
+      { img: 'images/router-product-2.jpg', label: 'ACP Signboards' },
+      { img: 'images/router-product-3.jpg', label: 'Sunboard Cutouts' },
+      { img: 'images/router-product-4.jpg', label: 'Foam 3D Displays' },
+    ],
+    uses: ['3D Letters','ACP Cladding','Sunboard Shapes','Foam 3D Props','Shop Fascia','Dimensional Logos','PVC Board Cutting','Kiosks','Exhibition Panels','Parking Boards']
+  },
+  'vinyl-cut': {
+    name: 'Vinyl Cutting Machine',
+    emoji: '✂️',
+    desc: 'Our Vinyl Cutter precisely cuts adhesive vinyl films into any shape or letter, using a blade guided by digital vector artwork. Ideal for single-colour or multi-colour decals, lettering, stickers, and floor marking — clean edges, no ink bleed.',
+    heroImg: 'images/vinyl-cutting-machine.jpg',
+    gallery: [
+      { img: 'images/vinyl-cut-product-1.jpg', label: 'Vinyl Letter Stickers' },
+      { img: 'images/vinyl-cut-product-2.jpg', label: 'Floor Marking Tape' },
+      { img: 'images/vinyl-cut-product-3.jpg', label: 'Window Lettering' },
+      { img: 'images/vinyl-cut-product-4.jpg', label: 'Vehicle Logo Decals' },
+    ],
+    uses: ['Vinyl Lettering','Vehicle Decals','Window Stickers','Floor Markings','Reflective Stickers','Safety Signs','Logo Cut-Outs','Label Stickers','Wall Lettering','Contour-Cut Graphics']
+  }
+};
+
+function openProdModal(key) {
+  const d = MACHINE_DATA[key];
+  if(!d) return;
+  document.getElementById('prodModalTitle').textContent = d.name;
+  document.getElementById('prodModalTag').textContent = '🏭 ' + d.name;
+  document.getElementById('prodModalDesc').textContent = d.desc;
+  document.getElementById('prodModalHeroPlaceholder').textContent = d.emoji;
+
+  const heroImg = document.getElementById('prodModalHeroImg');
+  if(d.heroImg){
+    heroImg.src = d.heroImg;
+    heroImg.alt = d.name;
+    heroImg.style.display = 'block';
+    document.getElementById('prodModalHeroPlaceholder').style.display = 'none';
+  } else {
+    heroImg.style.display = 'none';
+    document.getElementById('prodModalHeroPlaceholder').style.display = 'flex';
+  }
+
+  // Gallery
+  const gallery = document.getElementById('prodModalGallery');
+  gallery.innerHTML = '';
+  (d.gallery || []).forEach(function(item) {
+    const div = document.createElement('div');
+    div.className = 'prod-modal-gallery-img';
+    div.innerHTML = `<img src="${item.img}" alt="${item.label}" onerror="this.parentElement.innerHTML='<div class=\\'prod-modal-gallery-placeholder\\'><span style=\\'font-size:2rem\\'>🖼️</span><span>${item.label}</span></div>'" loading="lazy"><div class="prod-modal-gallery-label">${item.label}</div>`;
+    gallery.appendChild(div);
+  });
+
+  // Uses
+  const usesList = document.getElementById('prodModalUses');
+  usesList.innerHTML = '';
+  (d.uses || []).forEach(function(u){
+    const li = document.createElement('li');
+    li.textContent = u;
+    usesList.appendChild(li);
+  });
+
+  document.getElementById('prodModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProdModal(e) {
+  if(e && e.target !== document.getElementById('prodModal')) return;
+  document.getElementById('prodModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeProdModal(); });
+
 const sections=document.querySelectorAll('.fade-section');
 function revealFadeSections(){
 sections.forEach(sec=>{
