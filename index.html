@@ -454,6 +454,160 @@
   .live-review-item .lri-text{font-size:0.87rem;color:#555;line-height:1.65}
   .live-review-item .lri-time{font-size:0.72rem;color:#bbb;margin-top:0.4rem}
   @media(max-width:600px){.review-name-row{grid-template-columns:1fr}}
+
+  /* ══════════════════════════════════════════
+     MOBILE-FIRST OVERRIDES (≤480px phones)
+  ══════════════════════════════════════════ */
+  @media(max-width:480px){
+    /* NAV */
+    .nav-inner{height:56px;padding:0 1rem}
+    .nav-logo-icon{width:36px;height:36px;font-size:14px}
+    .nav-logo-text{font-size:1rem}
+    .nav-links a{padding:0.65rem 1.5rem;font-size:0.95rem}
+
+    /* HERO */
+    .hero{padding-top:56px;min-height:100svh}
+    .hero-inner{padding:2rem 1rem 5rem;gap:1.5rem}
+    .hero-badge{font-size:0.7rem;padding:0.3rem 0.75rem;margin-bottom:1rem}
+    .hero h1{font-size:2rem;margin-bottom:0.75rem}
+    .hero-sub{font-size:0.9rem;margin-bottom:1.25rem;max-width:100%}
+    .hero-tags{gap:6px;margin-bottom:1.75rem}
+    .hero-tag{font-size:0.72rem;padding:0.28rem 0.7rem}
+    .hero-btns{gap:0.75rem}
+    .btn-primary,.btn-outline{padding:0.75rem 1.4rem;font-size:0.92rem}
+
+    /* SECTIONS */
+    section{padding:3rem 1rem}
+    .section-title{font-size:1.6rem}
+    .section-sub{font-size:0.88rem}
+    .section-label{font-size:0.72rem}
+
+    /* SERVICES */
+    .service-card{flex:0 0 240px;margin:0 8px}
+    .service-image{height:160px}
+    .service-title{font-size:0.95rem}
+    .service-desc{font-size:0.78rem}
+    .service-body{padding:1rem}
+    .services-arrow-btn{width:40px;height:40px;font-size:1.1rem}
+
+    /* ABOUT */
+    .about-award{padding:3rem 1rem}
+    .about-left h2{font-size:1.8rem;margin:15px 0}
+    .about-left p{font-size:0.88rem;margin-bottom:20px}
+    .year{font-size:18px}
+    .event{font-size:0.85rem}
+    .timeline{padding-left:22px}
+    .timeline-item{margin-bottom:20px}
+    .glass-card{grid-template-columns:1fr 1fr;gap:12px}
+    .stat{padding:20px 12px}
+    .stat h3{font-size:2rem}
+    .stat p{font-size:0.8rem}
+    .founder-premium{padding:20px}
+    .founder-premium h3{font-size:1rem}
+    .founder-premium h4,.founder-premium p{font-size:0.85rem}
+
+    /* MISSION */
+    .mission-strip{padding:2rem 1rem}
+    .mission-strip h2{font-size:1.35rem}
+    .mission-strip p{font-size:0.85rem}
+
+    /* VIDEO */
+    .reveal[style*="max-width:860px"]{border-radius:10px}
+
+    /* MACHINES */
+    .machine-slide{flex-basis:72vw}
+    .machine-icon{height:170px}
+    .machine-name{font-size:13px;padding:10px 10px 3px}
+    .machine-cta{font-size:0.72rem;padding:0 10px 14px}
+
+    /* GALLERY */
+    .gallery-grid{grid-template-columns:1fr 1fr;gap:8px;margin-top:2rem}
+    .gallery-label{font-size:0.7rem;padding:1rem 0.5rem 0.5rem}
+
+    /* UPLOAD FORM */
+    .upload-form-box{padding:1.5rem 1rem;margin:2rem 0 0}
+    .form-row{grid-template-columns:1fr}
+    .form-group label{font-size:0.8rem}
+    .form-group input,.form-group select,.form-group textarea{font-size:0.9rem;padding:0.55rem 0.75rem}
+    .upload-zone{padding:1.75rem 1rem}
+    .upload-zone-icon{font-size:2rem}
+    .upload-zone-text{font-size:0.82rem}
+    .form-submit,.form-submit-wa{font-size:0.92rem;padding:0.85rem}
+
+    /* CONTACT */
+    .contact-grid{grid-template-columns:1fr;gap:2rem;margin-top:2rem}
+    .contact-item-icon{width:38px;height:38px;font-size:1rem}
+    .contact-item-value{font-size:0.88rem}
+    .contact-form-box{padding:1.25rem 1rem}
+    .contact-form-box h3{font-size:1rem}
+
+    /* REVIEWS CAROUSEL */
+    .review-card{flex:0 0 88vw;padding:1.25rem;min-width:unset}
+    .review-avatar{width:38px;height:38px;font-size:0.78rem}
+    .review-name{font-size:0.88rem}
+    .review-company{font-size:0.7rem}
+    .review-text{font-size:0.82rem}
+    .review-rating{font-size:0.85rem}
+    .review-tag{font-size:0.68rem;padding:3px 10px}
+    .reviews-arrow-btn{width:38px;height:38px;font-size:1rem}
+    .reviews-dot{width:7px;height:7px}
+    .reviews-dot.active{width:18px}
+
+    /* WRITE A REVIEW */
+    .write-review-section{padding:3rem 1rem}
+    .write-review-wrap{margin:2rem 0 0}
+    .write-review-box{padding:1.5rem 1rem}
+    .star-picker button{font-size:1.65rem}
+    .review-name-row{grid-template-columns:1fr;gap:0.75rem}
+    .live-review-item{padding:0.9rem 1rem}
+    .lri-avatar{width:34px;height:34px;font-size:0.75rem}
+    .lri-name{font-size:0.85rem}
+    .lri-label{font-size:0.68rem}
+    .lri-text{font-size:0.82rem}
+    .lri-time{font-size:0.68rem}
+    .review-submitted-msg h3{font-size:1.2rem}
+    .review-submitted-msg p{font-size:0.85rem}
+
+    /* LOGO SLIDER */
+    .logo-slide{min-width:130px;height:80px;padding:0.5rem 1rem}
+    .logo-slide img{height:36px;max-width:110px}
+    .logo-slide-name{font-size:0.65rem}
+
+    /* FAQ */
+    .faq-list{margin:2rem 0 0}
+    .faq-question{font-size:0.9rem;padding:1rem 1.1rem}
+    .faq-answer-inner{font-size:0.84rem;padding:0 1.1rem 1rem}
+    .faq-icon{width:24px;height:24px;font-size:1rem}
+
+    /* FOOTER */
+    footer{padding:2.5rem 1rem 1.25rem}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+    .footer-brand-name{font-size:1.1rem}
+    .footer-brand-desc{font-size:0.78rem}
+    .footer-col-title{font-size:0.72rem;margin-bottom:0.75rem}
+    .footer-links a{font-size:0.8rem}
+    .footer-copy,.footer-emails{font-size:0.73rem}
+    .footer-bottom{padding-top:1rem;gap:0.5rem}
+
+    /* FLOATING BUTTONS */
+    .wa-btn{width:52px;height:52px;font-size:1.4rem;bottom:18px;right:16px}
+    .call-btn{width:44px;height:44px;font-size:1.15rem;bottom:82px;right:18px}
+
+    /* PRODUCT MODAL */
+    .prod-modal{border-radius:12px}
+    .prod-modal-hero{height:190px}
+    .prod-modal-body{padding:1rem 1rem 1.75rem}
+    .prod-modal-title{font-size:1.2rem}
+    .prod-modal-desc{font-size:0.85rem}
+    .prod-modal-uses li{font-size:0.78rem}
+    .prod-modal-gallery{grid-template-columns:1fr 1fr;gap:8px}
+
+    /* THANK YOU MODAL */
+    .thankyou-box{padding:2rem 1.25rem}
+    .thankyou-icon{font-size:3rem}
+    .thankyou-box h2{font-size:1.4rem}
+    .thankyou-box p{font-size:0.85rem}
+  }
 </style>
 </head>
 <body>
@@ -765,7 +919,6 @@
       <div style="position:absolute;inset:0;border-radius:14px;background:linear-gradient(135deg,rgba(204,0,0,0.15),transparent);pointer-events:none;z-index:1"></div>
       <video
         src="videos/sar-promo.mp4"
-        controls
         autoplay
         muted
         loop
@@ -1828,14 +1981,38 @@ const counterObserver = new IntersectionObserver((entries)=>{
 const statGrid = document.querySelector('.hero-stat-grid');
 if(statGrid) counterObserver.observe(statGrid);
 
-/* ── WRITE A REVIEW ── */
+/* ── WRITE A REVIEW (with localStorage persistence) ── */
 let selectedReviewStars = 0;
+const REVIEW_KEY = 'sardigi_human_reviews';
+
 function setReviewStar(n){
   selectedReviewStars = n;
   document.querySelectorAll('#starPicker button').forEach((b,i)=>{
     b.classList.toggle('active', i < n);
   });
 }
+
+function buildReviewItem(r){
+  const item = document.createElement('div');
+  item.className = 'live-review-item';
+  item.innerHTML = `<div class="lri-top">
+    <div class="lri-avatar" style="background:${r.color}">${r.initials}</div>
+    <div><div class="lri-name">${r.name}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
+    <div class="lri-stars">${r.stars}</div>
+  </div>
+  <div class="lri-text">${r.text}</div>
+  <div class="lri-time">${r.service||'General'} · ${r.date||'Just now'}</div>`;
+  return item;
+}
+
+function loadSavedReviews(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(REVIEW_KEY)||'[]');
+    const list = document.getElementById('liveReviewList');
+    saved.forEach(r=>{ list.prepend(buildReviewItem(r)); });
+  }catch(e){}
+}
+
 function submitHumanReview(){
   const name = document.getElementById('reviewerName').value.trim();
   const text = document.getElementById('reviewText').value.trim();
@@ -1849,22 +2026,24 @@ function submitHumanReview(){
   const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   const colors = ['#CC0000','#8B0000','#4a0000','#003366','#006633','#CC4400'];
   const color = colors[Math.floor(Math.random()*colors.length)];
+  const now = new Date();
+  const date = now.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
 
-  const item = document.createElement('div');
-  item.className = 'live-review-item';
-  item.innerHTML = `<div class="lri-top">
-    <div class="lri-avatar" style="background:${color}">${initials}</div>
-    <div><div class="lri-name">${name}</div><div class="lri-label">${company||'Sardigi Client'}</div></div>
-    <div class="lri-stars">${stars}</div>
-  </div>
-  <div class="lri-text">${text}</div>
-  <div class="lri-time">${service||'General'} · Just now</div>`;
+  const reviewData = {name,company,text,service,stars,initials,color,date};
+
+  // Save to localStorage
+  try{
+    const saved = JSON.parse(localStorage.getItem(REVIEW_KEY)||'[]');
+    saved.unshift(reviewData);
+    localStorage.setItem(REVIEW_KEY, JSON.stringify(saved.slice(0,50))); // keep latest 50
+  }catch(e){}
 
   const list = document.getElementById('liveReviewList');
-  list.prepend(item);
+  list.prepend(buildReviewItem(reviewData));
   document.getElementById('writeReviewBox').style.display = 'none';
   document.getElementById('reviewSubmittedMsg').style.display = 'block';
 }
+
 function resetReviewForm(){
   selectedReviewStars = 0;
   document.querySelectorAll('#starPicker button').forEach(b=>b.classList.remove('active'));
@@ -1875,6 +2054,9 @@ function resetReviewForm(){
   document.getElementById('writeReviewBox').style.display = 'block';
   document.getElementById('reviewSubmittedMsg').style.display = 'none';
 }
+
+// Load persisted reviews when page opens
+document.addEventListener('DOMContentLoaded', loadSavedReviews);
 
 /* ── REVIEWS CAROUSEL ── */
 (function(){
