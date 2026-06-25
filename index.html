@@ -198,7 +198,7 @@
   .logo-slide{background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;min-width:180px;height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0.75rem 1.5rem;flex-shrink:0;transition:border-color 0.25s,box-shadow 0.25s,transform 0.25s;cursor:default}
   .logo-slide:hover{border-color:var(--red);box-shadow:0 6px 20px rgba(204,0,0,0.12);transform:translateY(-3px)}
   .logo-slide img{width:auto;height:48px;max-width:140px;object-fit:contain;display:block}
-  .logo-slide-name{font-size:0.72rem;font-weight:700;color:var(--gray-mid);text-align:center;letter-spacing:0.2px;line-height:1.2}
+  .logo-slide-name{display:none}
 
   /* MACHINES — sliding carousel */
   .machines-slider-wrap{position:relative;margin-top:3rem}
@@ -895,6 +895,10 @@
                 <h3>Mr. Deepak Soni</h3>
                 <p><a href="tel:+919870752589" style="color:inherit;text-decoration:none">📞 +91 9870752589</a></p>
                 <p><a href="mailto:sardigiprints@gmail.com" style="color:inherit;text-decoration:none">✉️ sardigiprints@gmail.com</a></p>
+                <hr style="border:none;border-top:1px solid rgba(255,255,255,0.15);margin:12px 0">
+                <h4 style="margin-top:4px">Sales</h4>
+                <h3>Mr. Susheel Soni</h3>
+                <p><a href="tel:+919821047224" style="color:inherit;text-decoration:none">📞 +91 9821047224</a></p>
             </div>
         </div>
     </div>
@@ -971,7 +975,7 @@
         <div class="logo-slide"><img src="images/logo-kalamandir.png" alt="Kalamandir"><span class="logo-slide-name">Kalamandir</span></div>
         <div class="logo-slide"><img src="images/logo-metro-brands.png" alt="Metro Brands"><span class="logo-slide-name">Metro Brands</span></div>
         <div class="logo-slide"><img src="images/logo-png-jewellers.png" alt="PNG Jewellers"><span class="logo-slide-name">PNG Jewellers</span></div>
-        <div class="logo-slide"><img src="images/logo-portico.png" alt="Portico"><span class="logo-slide-name">Portico</span></div>
+        <div class="logo-slide"><img src="data:image/png;base64,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" alt="Portico"><span class="logo-slide-name">Portico</span></div>
         <div class="logo-slide"><img src="images/logo-reliance-digital.png" alt="Reliance Digital"><span class="logo-slide-name">Reliance Digital</span></div>
         <div class="logo-slide"><img src="images/logo-reliance-jewels.png" alt="Reliance Jewels"><span class="logo-slide-name">Reliance Jewels</span></div>
         <div class="logo-slide"><img src="images/logo-rosso-brunello.png" alt="Rosso Brunello"><span class="logo-slide-name">Rosso Brunello</span></div>
@@ -990,7 +994,7 @@
         <div class="logo-slide"><img src="images/logo-kalamandir.png" alt="Kalamandir"><span class="logo-slide-name">Kalamandir</span></div>
         <div class="logo-slide"><img src="images/logo-metro-brands.png" alt="Metro Brands"><span class="logo-slide-name">Metro Brands</span></div>
         <div class="logo-slide"><img src="images/logo-png-jewellers.png" alt="PNG Jewellers"><span class="logo-slide-name">PNG Jewellers</span></div>
-        <div class="logo-slide"><img src="images/logo-portico.png" alt="Portico"><span class="logo-slide-name">Portico</span></div>
+        <div class="logo-slide"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHYAAAAxCAYAAAAP+l3FAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAV4SURBVHhe7Zo9b9NcG4CvJtixE1LaQoQcKQmglKooDBYdCxJLh0oIoS6FAVYm1q5sDEj8CtQZWAjphCADIBpaBEqgMV9paUpI47ax2ziJ34VGJJT3+eB5XhK/viQPvn2Ov65z7tuW3Wfbto2L4/B0BroN27bZa+ztFftVfnasXqSrxdq2zYMHD3j37l3bTbdtm2fPnrGxsdGKf7/stulcOvf9faxer3Pz5k2azeae+9hrvZvp69ZUbNs2qVSKtbU1Tp48iWmaeL1eSqUSo6Oj5HI5Tp06hWEYPH78mGAwyOHDh/n69SuTk5O8efOGra0tlpeXGR0dpV6vU6lUGBwcpL+/H03TME2TWCxGPB4nmUwyNzfHtWvXmJub4/jx40iSxL59+9jZ2cHr9fL06VPi8TiiKLK2toaqqvT19REOhwkGg52X8Fvp2hlbLBZ59OgRiqKQzWap1WpIkkQymeT58+dsb29TKBTY2NigWCyytbVFIpFA13UA/H4/6+vrVCoVdF0nGo1y48YNisUigiCg6zpHjx5leHiYSqWCbdscOHCAUCiEoijcvn0bWZYZGBjg/fv3vH79mocPHyKKIsFgkI8fP3L//n3u3buHIAiwRxb4nXSt2P379yMIApubm0SjURYXFwE4e/YsPp+Per2OKIpomkY8HqdWq1GtVpFlmUajgaIovHjxgosXL2KaJm/fvuXChQuUy2VKpRK2baPrOrZtI8symqbh9/upVCr4fD5UVWVlZYXl5WVkWebgwYMcOXIEURTxeDwMDg5y5swZotEoCwsLbG1tkc1myeVynZfyW+jaVAxQrVZpNptIksT29jaiKFKr1RBFkUajweLiIk+ePEFRFMbGxohEItTrdSRJIpfLoWkak5OT1Go1LMtCkiQMw2j17+vrQ5ZlADY3N7FtG5/PR7PZRBAEqtUqfr8f0zQRBKE1mPhWkz0eD7Zt4/F4EASBnZ0d+JYtfjddLfaPaDabfPnyBVmW6e/vb9tWq9VoNBotcf9v9LRYl5/TtTXW5ddwxToUV6xDccU6FFesQ3HFOhRXrENxxToUV6xDccU6FFesQ3HFOhRXrENxxToUV6xD6frvsZqmcefOHSzLasUOHTrEpUuX/pGP6JlMhlQqRSwWY3p6unNzz9IzMzYWizEzM8PExASlUom7d+92NvlTpFIpbt26haZpbfGhoaG29V6nZ8TuEovF8Pv9VKtVTNPs3PxfMU2TT58+tcVUVW0NGCfRM6k4HA4zPT39Q+pMpVJkMplWe1VVmZiYaPUTBAHLslr//ZbL5ba2oVCIVCrV6meaJrOzs5RKJfg2kL4/7i7dnrq9169fv94Z7CbW19fJZrOUy2XS6TT5fL7tZqfTaVRV5cqVKxiGQSaTwTAMhoaGyGazeL1eLl++zPj4OCdOnCCfz2NZFlNTU4yNjbG6uko+n0dRFMLhMLOzs+i6ztTUFOfOnSORSKBpGslkkkgkwtWrVwkEAszPz1MoFEgkEp2n3BX0TCrerbEzMzOtmZLL5RAEgXg8DkA8HkcQhLZZGQqF/nT9/Pz5M7quEw6HOXbsWCu+tLSEZVmMjIzAL5aD/xU9I9blr9HTYkdGRrAsi6WlJdhjZnUiyzKBQKAz3GJgYABBEFhZWWl7at7NBLt/+X/48AHDMIhEIv/IK9e/Qc/U2GAw+EM9UxSlVVfT6TSrq6uoqsr4+PhP+/n9frLZLC9fvsQwDAKBQKvGJhIJhoeHefXqFQsLC6TTaQqFAqdPn0aSJObn59vq/Pnz59vOp5vo+qdil79HT6dil5/jinUorliH4op1KK5Yh+KKdSiuWIfiinUorliH4op1KK5Yh+KKdSiuWIfiinUorliH8h+S8b8hRDlnsgAAAABJRU5ErkJggg==" alt="Portico"><span class="logo-slide-name">Portico</span></div>
         <div class="logo-slide"><img src="images/logo-reliance-digital.png" alt="Reliance Digital"><span class="logo-slide-name">Reliance Digital</span></div>
         <div class="logo-slide"><img src="images/logo-reliance-jewels.png" alt="Reliance Jewels"><span class="logo-slide-name">Reliance Jewels</span></div>
         <div class="logo-slide"><img src="images/logo-rosso-brunello.png" alt="Rosso Brunello"><span class="logo-slide-name">Rosso Brunello</span></div>
@@ -1149,6 +1153,13 @@
             <div>
               <div class="contact-item-label">Deepak Soni (Founder)</div>
               <div class="contact-item-value"><a href="tel:+919870752589">+91 9870752589</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div>
+              <div class="contact-item-label">Susheel Soni</div>
+              <div class="contact-item-value"><a href="tel:+919821047224">+91 9821047224</a></div>
             </div>
           </div>
           <div class="contact-item">
