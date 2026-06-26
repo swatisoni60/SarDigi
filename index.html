@@ -2050,11 +2050,11 @@ function buildReviewItem(r){
   const item = document.createElement('div');
   item.className = 'live-review-item';
   item.innerHTML = `<div class="lri-top">
-    <div class="lri-avatar" style="background:${r.color}">${r.initials}</div>
-    <div><div class="lri-name">${r.name}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
-    <div class="lri-stars">${r.stars}</div>
+    <div class="lri-avatar" style="background:${r.color||'#CC0000'}">${r.initials||'?'}</div>
+    <div><div class="lri-name">${r.name||''}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
+    <div class="lri-stars">${r.stars||'★★★★★'}</div>
   </div>
-  <div class="lri-text">${r.text}</div>
+  <div class="lri-text">${r.text||''}</div>
   <div class="lri-time">${r.service||'General'} · ${r.date||'Just now'}</div>`;
   return item;
 }
@@ -2063,8 +2063,9 @@ async function loadSavedReviews(){
   const list = document.getElementById('liveReviewList');
   try{
     const saved = await cloudGetReviews();
+    list.innerHTML = '';
     saved.slice(0,20).forEach(r=>{ list.appendChild(buildReviewItem(r)); });
-  }catch(e){ /* silently skip if Firebase not yet configured */ }
+  }catch(e){}
 }
 
 function setReviewStar(n){
@@ -2072,19 +2073,6 @@ function setReviewStar(n){
   document.querySelectorAll('#starPicker button').forEach((b,i)=>{
     b.classList.toggle('active', i < n);
   });
-}
-
-function buildReviewItem(r){
-  const item = document.createElement('div');
-  item.className = 'live-review-item';
-  item.innerHTML = `<div class="lri-top">
-    <div class="lri-avatar" style="background:${r.color}">${r.initials}</div>
-    <div><div class="lri-name">${r.name}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
-    <div class="lri-stars">${r.stars}</div>
-  </div>
-  <div class="lri-text">${r.text}</div>
-  <div class="lri-time">${r.service||'General'} · ${r.date||'Just now'}</div>`;
-  return item;
 }
 
 async function submitHumanReview(){
@@ -2105,14 +2093,11 @@ async function submitHumanReview(){
 
   const reviewData = {name,company,text,service,stars,initials,color,date};
 
-  // Show optimistically in UI immediately
-  const list = document.getElementById('liveReviewList');
-  list.prepend(buildReviewItem(reviewData));
   document.getElementById('writeReviewBox').style.display = 'none';
   document.getElementById('reviewSubmittedMsg').style.display = 'block';
 
-  // Push to Firebase so ALL devices see it
   await cloudPushReview(reviewData);
+  setTimeout(loadSavedReviews, 1500);
 }
 
 function resetReviewForm(){
@@ -2126,8 +2111,11 @@ function resetReviewForm(){
   document.getElementById('reviewSubmittedMsg').style.display = 'none';
 }
 
-// Load shared reviews from cloud when page opens
-document.addEventListener('DOMContentLoaded', loadSavedReviews);
+// Load from Airtable on open, auto-refresh every 30s
+document.addEventListener('DOMContentLoaded', ()=>{
+  loadSavedReviews();
+  setInterval(loadSavedReviews, 30000);
+});
 
 /* ── REVIEWS CAROUSEL ── */
 (function(){
