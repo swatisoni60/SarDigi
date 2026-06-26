@@ -198,7 +198,7 @@
   .logo-slide{background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;min-width:180px;height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0.75rem 1.5rem;flex-shrink:0;transition:border-color 0.25s,box-shadow 0.25s,transform 0.25s;cursor:default}
   .logo-slide:hover{border-color:var(--red);box-shadow:0 6px 20px rgba(204,0,0,0.12);transform:translateY(-3px)}
   .logo-slide img{width:auto;height:48px;max-width:140px;object-fit:contain;display:block}
-  .logo-slide-name{display:none}
+  .logo-slide-name{font-size:0.72rem;font-weight:700;color:var(--gray-mid);text-align:center;letter-spacing:0.2px;line-height:1.2}
 
   /* MACHINES — sliding carousel */
   .machines-slider-wrap{position:relative;margin-top:3rem}
@@ -639,9 +639,9 @@
       <li><a href="#services">Services</a></li>
       <li><a href="#clients">Clients</a></li>
       <li><a href="#gallery">Portfolio</a></li>
-      <li><a href="#upload">Upload Artwork</a></li>
+      <li><a href="#upload" onclick="switchTab('order')">Upload Artwork</a></li>
       <li><a href="#faq">FAQ</a></li>
-      <li><a href="#contact" class="nav-cta">Get Quote</a></li>
+      <li><a href="#upload" class="nav-cta" onclick="switchTab('quote')">Get Quote</a></li>
     </ul>
   </div>
 </nav>
@@ -895,10 +895,6 @@
                 <h3>Mr. Deepak Soni</h3>
                 <p><a href="tel:+919870752589" style="color:inherit;text-decoration:none">📞 +91 9870752589</a></p>
                 <p><a href="mailto:sardigiprints@gmail.com" style="color:inherit;text-decoration:none">✉️ sardigiprints@gmail.com</a></p>
-                <hr style="border:none;border-top:1px solid rgba(255,255,255,0.15);margin:12px 0">
-                <h4 style="margin-top:4px">Sales</h4>
-                <h3>Mr. Susheel Soni</h3>
-                <p><a href="tel:+919821047224" style="color:inherit;text-decoration:none">📞 +91 9821047224</a></p>
             </div>
         </div>
     </div>
@@ -975,7 +971,7 @@
         <div class="logo-slide"><img src="images/logo-kalamandir.png" alt="Kalamandir"><span class="logo-slide-name">Kalamandir</span></div>
         <div class="logo-slide"><img src="images/logo-metro-brands.png" alt="Metro Brands"><span class="logo-slide-name">Metro Brands</span></div>
         <div class="logo-slide"><img src="images/logo-png-jewellers.png" alt="PNG Jewellers"><span class="logo-slide-name">PNG Jewellers</span></div>
-        <div class="logo-slide"><img src="data:image/png;base64,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" alt="Portico"><span class="logo-slide-name">Portico</span></div>
+        <div class="logo-slide"><img src="images/logo-portico.png" alt="Portico"><span class="logo-slide-name">Portico</span></div>
         <div class="logo-slide"><img src="images/logo-reliance-digital.png" alt="Reliance Digital"><span class="logo-slide-name">Reliance Digital</span></div>
         <div class="logo-slide"><img src="images/logo-reliance-jewels.png" alt="Reliance Jewels"><span class="logo-slide-name">Reliance Jewels</span></div>
         <div class="logo-slide"><img src="images/logo-rosso-brunello.png" alt="Rosso Brunello"><span class="logo-slide-name">Rosso Brunello</span></div>
@@ -994,7 +990,7 @@
         <div class="logo-slide"><img src="images/logo-kalamandir.png" alt="Kalamandir"><span class="logo-slide-name">Kalamandir</span></div>
         <div class="logo-slide"><img src="images/logo-metro-brands.png" alt="Metro Brands"><span class="logo-slide-name">Metro Brands</span></div>
         <div class="logo-slide"><img src="images/logo-png-jewellers.png" alt="PNG Jewellers"><span class="logo-slide-name">PNG Jewellers</span></div>
-        <div class="logo-slide"><img src="data:image/png;base64,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" alt="Portico"><span class="logo-slide-name">Portico</span></div>
+        <div class="logo-slide"><img src="images/logo-portico.png" alt="Portico"><span class="logo-slide-name">Portico</span></div>
         <div class="logo-slide"><img src="images/logo-reliance-digital.png" alt="Reliance Digital"><span class="logo-slide-name">Reliance Digital</span></div>
         <div class="logo-slide"><img src="images/logo-reliance-jewels.png" alt="Reliance Jewels"><span class="logo-slide-name">Reliance Jewels</span></div>
         <div class="logo-slide"><img src="images/logo-rosso-brunello.png" alt="Rosso Brunello"><span class="logo-slide-name">Rosso Brunello</span></div>
@@ -1060,89 +1056,141 @@
   </div>
 </section>
 
-<!-- UPLOAD ARTWORK -->
-<section class="upload-bg fade-section" id="upload">
+<!-- COMBINED QUOTE & ORDER SECTION WITH TABS -->
+<section class="contact-bg fade-section" id="upload" style="padding:5rem 1.5rem">
   <div class="container">
-    <div style="text-align:center;max-width:560px;margin:0 auto">
-      <span class="section-label">Upload Artwork</span>
-      <h2 class="section-title">Submit Your Print Order</h2>
-      <p class="section-sub" style="margin:0 auto">Upload your design files and we'll get back to you with a quote within 24 hours.</p>
+
+    <!-- Section Header -->
+    <div style="text-align:center;max-width:620px;margin:0 auto 2.5rem">
+      <span class="section-label" style="justify-content:center;color:var(--red)">Get Started</span>
+      <h2 class="section-title" style="color:#fff">Quote & Order</h2>
+      <p class="section-sub" style="margin:0 auto;color:rgba(255,255,255,0.5)">Request a quick quote or submit your print order with artwork — all in one place.</p>
     </div>
-    <div class="upload-form-box reveal">
-      <form id="orderForm">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Full Name *</label>
-          <input type="text" id="orderName" name="name" placeholder="Your name">
-        </div>
-        <div class="form-group">
-          <label>Phone / WhatsApp *</label>
-          <input type="tel" id="orderPhone" placeholder="+91 XXXXXXXXXX">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="orderEmail" name="email" placeholder="email@example.com">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Product / Service *</label>
-          <select id="orderService">
-            <option value="">Select service...</option>
-            <option>Banner Prints</option>
-            <option>Laser Cutting</option>
-            <option>Router Cutting</option>
-            <option>Shop Boards</option>
-            <option>Vinyl Cutting</option>
-            <option>Paper Layout</option>
-            <option>Vinyl Printing</option>
-            <option>Pole Branding</option>
-            <option>LED Signboard</option>
-            <option>Vehicle Branding</option>
-            <option>Customized Gifts</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Quantity</label>
-          <input type="number" id="orderQty" placeholder="e.g. 100">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Size / Dimensions</label>
-        <input type="text" id="orderSize" placeholder="e.g. 4 feet x 2 feet, A4, etc.">
-      </div>
 
-      <div class="form-group">
-        <label>📎 Attach Your Design File</label>
-                <input type="file" id="orderFileInput" name="attachment" accept=".pdf,.ai,.psd,.cdr,.jpg,.jpeg,.png,.eps" multiple style="display:none" onchange="handleFileSelect(this)">
-        <div class="uploaded-files-list" id="uploadedFilesList"></div>
-      </div>
-
-       <div class="form-group">
-        <label>📁 Share Artwork File (Google Drive / Dropbox Link)</label>
-        <input type="url" id="orderFileLink" placeholder="Paste your Google Drive or Dropbox share link here">
-        <div style="font-size:0.78rem;color:#aaa;margin-top:5px">
-          📌 Got a large file (over 10MB)? Upload it to Google Drive → Right click → "Share" → "Anyone with link" → Copy link → Paste here instead.<br><br>
-
-<p><b><i><span style="color:#000000;"> * YOU CAN DIRECTLY SEND FILE ON OUR WHATSAPP OR EMAIL *</span></i></b></p>        </div>
-      </div>
-      <div class="form-group">
-        <label>Printing Instructions / Notes</label>
-        <textarea id="orderNotes" rows="3" placeholder="Mention paper type, lamination, finishing, delivery date, or any special instructions..."></textarea>
-      </div>
-      <button type="button" class="form-submit" onclick="submitOrder()">📤 Submit Order Request</button>
-      <button type="button" class="form-submit-wa" onclick="sendOrderViaWhatsApp()">💬 Send Order & File via WhatsApp</button>
-      <input type="hidden" id="orderMessageField" name="message">
-      </form>
+    <!-- Tab Switcher -->
+    <div style="display:flex;justify-content:center;gap:0;margin-bottom:2rem">
+      <button id="tabQuoteBtn" onclick="switchTab('quote')" style="padding:0.7rem 2rem;font-size:0.95rem;font-weight:700;border:2px solid var(--red);border-radius:6px 0 0 6px;cursor:pointer;background:var(--red);color:#fff;transition:all .25s">💬 Get a Quote</button>
+      <button id="tabOrderBtn" onclick="switchTab('order')" style="padding:0.7rem 2rem;font-size:0.95rem;font-weight:700;border:2px solid var(--red);border-radius:0 6px 6px 0;cursor:pointer;background:transparent;color:rgba(255,255,255,0.7);transition:all .25s">📤 Submit Order</button>
     </div>
-  </div>
-</section>
 
-<!-- CONTACT -->
-<section class="contact-bg fade-section" id="contact">
-  <div class="container">
-    <div class="contact-grid">
+    <!-- Two-column layout: form left, contact info right -->
+    <div class="contact-grid" style="align-items:start">
+
+      <!-- LEFT: Tabbed Forms -->
+      <div class="reveal">
+
+        <!-- QUOTE TAB -->
+        <div id="tabQuote">
+          <div class="contact-form-box">
+            <h3 style="color:#fff;font-size:1.15rem;font-weight:700;margin-bottom:1.25rem">💬 Request a Quote</h3>
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" id="quoteNameInput" placeholder="Your full name">
+            </div>
+            <div class="form-group">
+              <label>Phone / WhatsApp</label>
+              <input type="tel" id="quotePhoneInput" placeholder="+91 XXXXXXXXXX">
+            </div>
+            <div class="form-group">
+              <label>Service Required</label>
+              <select id="quoteServiceInput" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.15);color:#fff">
+                <option value="">Select...</option>
+                <option>Banner Prints</option>
+                <option>Laser / Router Cutting</option>
+                <option>Shop Boards</option>
+                <option>Vinyl Cutting &amp; Printing</option>
+                <option>Paper Layout</option>
+                <option>Pole Branding</option>
+                <option>Vehicle Branding</option>
+                <option>Retail Store Setup</option>
+                <option>Customized Gifts</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea id="quoteMessageInput" rows="4" placeholder="Describe your requirement, size, quantity, timeline..."></textarea>
+            </div>
+            <button class="form-submit" onclick="submitQuote()">Send Quote Request</button>
+          </div>
+        </div>
+
+        <!-- ORDER TAB -->
+        <div id="tabOrder" style="display:none">
+          <div class="contact-form-box">
+            <h3 style="color:#fff;font-size:1.15rem;font-weight:700;margin-bottom:1.25rem">📤 Submit Print Order</h3>
+            <form id="orderForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="orderName" name="name" placeholder="Your name">
+              </div>
+              <div class="form-group">
+                <label>Phone / WhatsApp *</label>
+                <input type="tel" id="orderPhone" placeholder="+91 XXXXXXXXXX">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="orderEmail" name="email" placeholder="email@example.com">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Product / Service *</label>
+                <select id="orderService">
+                  <option value="">Select service...</option>
+                  <option>Banner Prints</option>
+                  <option>Laser Cutting</option>
+                  <option>Router Cutting</option>
+                  <option>Shop Boards</option>
+                  <option>Vinyl Cutting</option>
+                  <option>Paper Layout</option>
+                  <option>Vinyl Printing</option>
+                  <option>Pole Branding</option>
+                  <option>LED Signboard</option>
+                  <option>Vehicle Branding</option>
+                  <option>Customized Gifts</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" id="orderQty" placeholder="e.g. 100">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Size / Dimensions</label>
+              <input type="text" id="orderSize" placeholder="e.g. 4 feet x 2 feet, A4, etc.">
+            </div>
+            <div class="form-group">
+              <label>📎 Attach Your Design File</label>
+              <input type="file" id="orderFileInput" name="attachment" accept=".pdf,.ai,.psd,.cdr,.jpg,.jpeg,.png,.eps" multiple style="display:none" onchange="handleFileSelect(this)">
+              <div class="upload-zone" onclick="document.getElementById('orderFileInput').click()" ondrop="handleFileDrop(event,this)" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" style="border-color:rgba(255,255,255,0.2);padding:1.25rem">
+                <div class="upload-zone-icon" style="font-size:1.8rem">📁</div>
+                <div class="upload-zone-text" id="uploadZoneText" style="color:rgba(255,255,255,0.5);font-size:0.85rem">Click to browse or drag &amp; drop files</div>
+                <div class="upload-zone-formats" style="color:rgba(255,255,255,0.3)">PDF, AI, PSD, CDR, JPG, PNG, EPS</div>
+              </div>
+              <div class="uploaded-files-list" id="uploadedFilesList"></div>
+            </div>
+            <div class="form-group">
+              <label>📁 Google Drive / Dropbox Link</label>
+              <input type="url" id="orderFileLink" placeholder="Paste share link for large files">
+              <div style="font-size:0.76rem;color:rgba(255,255,255,0.35);margin-top:4px">* OR send file directly on WhatsApp / Email</div>
+            </div>
+            <div class="form-group">
+              <label>Printing Instructions / Notes</label>
+              <textarea id="orderNotes" rows="3" placeholder="Lamination, paper type, delivery date, special instructions..."></textarea>
+            </div>
+            <button type="button" class="form-submit" onclick="submitOrder()">📤 Submit Order Request</button>
+            <button type="button" class="form-submit-wa" onclick="sendOrderViaWhatsApp()">💬 Send Order &amp; File via WhatsApp</button>
+            <input type="hidden" id="orderMessageField" name="message">
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Contact Info + Map -->
       <div class="contact-info reveal">
         <span class="section-label">Contact Us</span>
         <h2 class="section-title" style="color:#fff">Let's Build Your Brand</h2>
@@ -1156,26 +1204,17 @@
             </div>
           </div>
           <div class="contact-item">
-            <div class="contact-item-icon">📞</div>
-            <div>
-              <div class="contact-item-label">Susheel Soni</div>
-              <div class="contact-item-value"><a href="tel:+919821047224">+91 9821047224</a></div>
-            </div>
-          </div>
-          <div class="contact-item">
             <div class="contact-item-icon">✉️</div>
             <div>
               <div class="contact-item-label">Email Us</div>
-              <div class="contact-item-value">
-                <a href="mailto:sardigiprints@gmail.com">sardigiprints@gmail.com</a>
-              </div>
+              <div class="contact-item-value"><a href="mailto:sardigiprints@gmail.com">sardigiprints@gmail.com</a></div>
             </div>
           </div>
           <div class="contact-item">
             <div class="contact-item-icon">📍</div>
             <div>
               <div class="contact-item-label">Head Office</div>
-              <div class="contact-item-value">Yogi Industrial Estate, Unit No 105 & 111, 1st Floor, Ram Mandir West, Mumbai - 400104</div>
+              <div class="contact-item-value">Yogi Industrial Estate, Unit No 105 &amp; 111, 1st Floor, Ram Mandir West, Mumbai - 400104</div>
             </div>
           </div>
           <div class="contact-item">
@@ -1186,50 +1225,19 @@
             </div>
           </div>
         </div>
-        <div style="margin-top:2rem">
+        <div style="margin-top:1.5rem">
           <a href="https://wa.me/919870752589?text=Hello%20Sardigi%20Prints%2C%20I%20need%20a%20quote." class="btn-primary btn" target="_blank">💬 Chat on WhatsApp</a>
-        </div>
-      </div>
-      <div class="reveal">
-        <div class="contact-form-box">
-          <h3 style="color:#fff;font-size:1.2rem;font-weight:700;margin-bottom:1.5rem">Request a Quote</h3>
-          <div class="form-group">
-            <label>Name</label>
-            <input type="text" id="quoteNameInput" placeholder="Your full name">
-          </div>
-          <div class="form-group">
-            <label>Phone / WhatsApp</label>
-            <input type="tel" id="quotePhoneInput" placeholder="+91 XXXXXXXXXX">
-          </div>
-          <div class="form-group">
-            <label>Service Required</label>
-            <select id="quoteServiceInput" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.15);color:#fff">
-              <option value="">Select...</option>
-              <option>Banner Prints</option>
-              <option>Laser / Router Cutting</option>
-              <option>Shop Boards</option>
-              <option>Vinyl Cutting & Printing</option>
-              <option>Paper Layout</option>
-              <option>Pole Branding</option>
-              <option>Vehicle Branding</option>
-              <option>Retail Store Setup</option>
-              <option>Customized Gifts</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Message</label>
-            <textarea id="quoteMessageInput" rows="4" placeholder="Describe your requirement, size, quantity, timeline..."></textarea>
-          </div>
-          <button class="form-submit" onclick="submitQuote()">Send Quote Request</button>
         </div>
         <div style="margin-top:1.5rem;border-radius:8px;overflow:hidden;height:220px">
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.013!2d72.8566!3d19.1558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA5JzIwLjkiTiA3MsKwNTEnMjMuOCJF!5e0!3m2!1sen!2sin!4v1234567890" width="100%" height="220" style="border:0;filter:grayscale(80%)" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
+
     </div>
   </div>
 </section>
+<!-- Keep #contact anchor working for nav -->
+<div id="contact" style="display:none"></div>
 
 <!-- REVIEWS -->
 <section class="fade-section" id="reviews" style="padding:5rem 1.5rem;background:var(--gray)">
@@ -1620,7 +1628,7 @@ function submitOrder(){
 
   const ref = 'SAR-' + Date.now().toString().slice(-6);
 
-  const btn = document.querySelector('#upload .form-submit');
+  const btn = document.querySelector('#tabOrder .form-submit');
   btn.textContent = '⏳ Sending...';
   btn.disabled = true;
 
@@ -1722,7 +1730,7 @@ function submitQuote(){
 
   const ref = 'SAR-Q-' + Date.now().toString().slice(-6);
 
-  const btn = document.querySelector('#contact .form-submit');
+  const btn = document.getElementById('tabQuoteBtn').parentElement.parentElement.querySelector('#tabQuote .form-submit');
   btn.textContent = '⏳ Sending...';
   btn.disabled = true;
 
@@ -1992,9 +2000,44 @@ const counterObserver = new IntersectionObserver((entries)=>{
 const statGrid = document.querySelector('.hero-stat-grid');
 if(statGrid) counterObserver.observe(statGrid);
 
-/* ── WRITE A REVIEW (with localStorage persistence) ── */
+/* ── TAB SWITCHER (Quote / Order) ── */
+function switchTab(tab){
+  const isQuote = tab === 'quote';
+  document.getElementById('tabQuote').style.display = isQuote ? 'block' : 'none';
+  document.getElementById('tabOrder').style.display = isQuote ? 'none' : 'block';
+  document.getElementById('tabQuoteBtn').style.background = isQuote ? 'var(--red)' : 'transparent';
+  document.getElementById('tabQuoteBtn').style.color = isQuote ? '#fff' : 'rgba(255,255,255,0.7)';
+  document.getElementById('tabOrderBtn').style.background = isQuote ? 'transparent' : 'var(--red)';
+  document.getElementById('tabOrderBtn').style.color = isQuote ? 'rgba(255,255,255,0.7)' : '#fff';
+}
+
+/* ── WRITE A REVIEW (shared across ALL devices via Airtable) ── */
+const AT_TOKEN = 'patqGm3yAKQ7fn8n3.7d10f748e2ddc156b6d306e74e30d328629043559d2bb06d5efbd3f6d75c02ad';
+const AT_BASE  = 'appDycf3qsu0CO8zZ';
+const AT_TABLE = 'Table 1';
+const AT_URL   = `https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(AT_TABLE)}`;
+const AT_HEADS = { 'Authorization': 'Bearer ' + AT_TOKEN, 'Content-Type': 'application/json' };
+
+async function cloudGetReviews(){
+  try{
+    const res = await fetch(AT_URL + '?sort[0][field]=date&sort[0][direction]=desc&maxRecords=50', { headers: AT_HEADS });
+    if(!res.ok) return [];
+    const data = await res.json();
+    return (data.records || []).map(r => r.fields);
+  }catch(e){ return []; }
+}
+
+async function cloudPushReview(reviewData){
+  try{
+    await fetch(AT_URL, {
+      method: 'POST',
+      headers: AT_HEADS,
+      body: JSON.stringify({ fields: reviewData })
+    });
+  }catch(e){}
+}
+
 let selectedReviewStars = 0;
-const REVIEW_KEY = 'sardigi_human_reviews';
 
 function setReviewStar(n){
   selectedReviewStars = n;
@@ -2016,15 +2059,35 @@ function buildReviewItem(r){
   return item;
 }
 
-function loadSavedReviews(){
+async function loadSavedReviews(){
+  const list = document.getElementById('liveReviewList');
   try{
-    const saved = JSON.parse(localStorage.getItem(REVIEW_KEY)||'[]');
-    const list = document.getElementById('liveReviewList');
-    saved.forEach(r=>{ list.prepend(buildReviewItem(r)); });
-  }catch(e){}
+    const saved = await cloudGetReviews();
+    saved.slice(0,20).forEach(r=>{ list.appendChild(buildReviewItem(r)); });
+  }catch(e){ /* silently skip if Firebase not yet configured */ }
 }
 
-function submitHumanReview(){
+function setReviewStar(n){
+  selectedReviewStars = n;
+  document.querySelectorAll('#starPicker button').forEach((b,i)=>{
+    b.classList.toggle('active', i < n);
+  });
+}
+
+function buildReviewItem(r){
+  const item = document.createElement('div');
+  item.className = 'live-review-item';
+  item.innerHTML = `<div class="lri-top">
+    <div class="lri-avatar" style="background:${r.color}">${r.initials}</div>
+    <div><div class="lri-name">${r.name}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
+    <div class="lri-stars">${r.stars}</div>
+  </div>
+  <div class="lri-text">${r.text}</div>
+  <div class="lri-time">${r.service||'General'} · ${r.date||'Just now'}</div>`;
+  return item;
+}
+
+async function submitHumanReview(){
   const name = document.getElementById('reviewerName').value.trim();
   const text = document.getElementById('reviewText').value.trim();
   if(!name){ alert('Please enter your name.'); return; }
@@ -2042,17 +2105,14 @@ function submitHumanReview(){
 
   const reviewData = {name,company,text,service,stars,initials,color,date};
 
-  // Save to localStorage
-  try{
-    const saved = JSON.parse(localStorage.getItem(REVIEW_KEY)||'[]');
-    saved.unshift(reviewData);
-    localStorage.setItem(REVIEW_KEY, JSON.stringify(saved.slice(0,50))); // keep latest 50
-  }catch(e){}
-
+  // Show optimistically in UI immediately
   const list = document.getElementById('liveReviewList');
   list.prepend(buildReviewItem(reviewData));
   document.getElementById('writeReviewBox').style.display = 'none';
   document.getElementById('reviewSubmittedMsg').style.display = 'block';
+
+  // Push to Firebase so ALL devices see it
+  await cloudPushReview(reviewData);
 }
 
 function resetReviewForm(){
@@ -2066,7 +2126,7 @@ function resetReviewForm(){
   document.getElementById('reviewSubmittedMsg').style.display = 'none';
 }
 
-// Load persisted reviews when page opens
+// Load shared reviews from cloud when page opens
 document.addEventListener('DOMContentLoaded', loadSavedReviews);
 
 /* ── REVIEWS CAROUSEL ── */
