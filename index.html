@@ -6,7 +6,6 @@
 <meta name="description" content="Sardigi Prints - Mumbai's premier printing, signage, branding, and customized gifting company. Acrylic letters, LED signage, vehicle branding, and more.">
 <meta name="keywords" content="printing Mumbai, signage Mumbai, branding Mumbai, acrylic letters, LED signboards, vinyl printing, Sardigi Prints">
 <title>Sardigi Prints | Signages & Printing Services Mumbai</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23CC0000'/><text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='Arial'>S</text></svg>">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
@@ -424,7 +423,37 @@
   .fade-section{opacity:0;transform:translateY(40px);transition:1s}
   .fade-section.show{opacity:1;transform:translateY(0)}
 
-
+  /* WRITE A REVIEW */
+  .write-review-section{background:#fff;padding:5rem 1.5rem}
+  .write-review-wrap{max-width:720px;margin:3rem auto 0}
+  .write-review-box{background:var(--gray);border:1.5px solid #e8e8e8;border-radius:16px;padding:2.5rem;position:relative;overflow:hidden}
+  .write-review-box::before{content:'✍️';position:absolute;top:1.5rem;right:2rem;font-size:3.5rem;opacity:0.12;pointer-events:none}
+  .star-picker{display:flex;gap:8px;margin-bottom:1.25rem}
+  .star-picker button{background:none;border:none;font-size:2rem;cursor:pointer;color:#ddd;transition:color .2s,transform .15s;line-height:1;padding:0}
+  .star-picker button:hover,.star-picker button.active{color:var(--red);transform:scale(1.15)}
+  .review-name-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+  .write-review-box .form-group input,.write-review-box .form-group textarea{background:#fff}
+  .write-review-box .form-group textarea{resize:vertical;min-height:100px}
+  .review-submitted-msg{display:none;text-align:center;padding:2rem 1rem}
+  .review-submitted-msg .check{font-size:3rem;margin-bottom:0.5rem}
+  .review-submitted-msg h3{font-size:1.4rem;font-weight:800;color:var(--black);margin-bottom:0.4rem}
+  .review-submitted-msg p{color:var(--gray-mid);font-size:0.92rem}
+  .review-live-feed{margin-top:2.5rem}
+  .review-live-feed-title{font-size:0.78rem;font-weight:700;color:var(--gray-mid);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+  .review-live-feed-title::after{content:'';flex:1;height:1px;background:#e0e0e0}
+  .live-review-list{display:flex;flex-direction:column;gap:1rem;max-height:380px;overflow-y:auto}
+  .live-review-list::-webkit-scrollbar{width:4px}
+  .live-review-list::-webkit-scrollbar-thumb{background:#ddd;border-radius:4px}
+  .live-review-item{background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:1.1rem 1.25rem;animation:reviewSlideIn .4s ease}
+  @keyframes reviewSlideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+  .live-review-item .lri-top{display:flex;align-items:center;gap:10px;margin-bottom:0.5rem}
+  .live-review-item .lri-avatar{width:38px;height:38px;border-radius:50%;background:var(--red);color:#fff;font-size:0.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .live-review-item .lri-name{font-size:0.9rem;font-weight:700;color:var(--black)}
+  .live-review-item .lri-label{font-size:0.72rem;color:var(--gray-mid)}
+  .live-review-item .lri-stars{margin-left:auto;color:var(--red);font-size:0.85rem;letter-spacing:1px}
+  .live-review-item .lri-text{font-size:0.87rem;color:#555;line-height:1.65}
+  .live-review-item .lri-time{font-size:0.72rem;color:#bbb;margin-top:0.4rem}
+  @media(max-width:600px){.review-name-row{grid-template-columns:1fr}}
 
   /* ══════════════════════════════════════════
      MOBILE-FIRST OVERRIDES (≤480px phones)
@@ -524,6 +553,20 @@
     .reviews-dot{width:7px;height:7px}
     .reviews-dot.active{width:18px}
 
+    /* WRITE A REVIEW */
+    .write-review-section{padding:3rem 1rem}
+    .write-review-wrap{margin:2rem 0 0}
+    .write-review-box{padding:1.5rem 1rem}
+    .star-picker button{font-size:1.65rem}
+    .review-name-row{grid-template-columns:1fr;gap:0.75rem}
+    .live-review-item{padding:0.9rem 1rem}
+    .lri-avatar{width:34px;height:34px;font-size:0.75rem}
+    .lri-name{font-size:0.85rem}
+    .lri-label{font-size:0.68rem}
+    .lri-text{font-size:0.82rem}
+    .lri-time{font-size:0.68rem}
+    .review-submitted-msg h3{font-size:1.2rem}
+    .review-submitted-msg p{font-size:0.85rem}
 
     /* LOGO SLIDER */
     .logo-slide{min-width:130px;height:80px;padding:0.5rem 1rem}
@@ -881,6 +924,7 @@
         loop
         playsinline
         style="width:100%;display:block;border-radius:14px;background:#000"
+        poster="images/video-poster.jpg"
       >
         Your browser does not support HTML5 video.
       </video>
@@ -922,43 +966,43 @@
     <div class="logo-slider-wrap reveal">
       <div class="logo-slider-track" id="logoTrack">
         <!-- Original set -->
-        <div class="logo-slide"><img src="images/logo-shoppers-stop.png" alt="Shoppers Stop"><span class="logo-slide-name">Shoppers Stop</span></div>
-        <div class="logo-slide"><img src="images/logo-indriya-birla.png" alt="Indriya Birla"><span class="logo-slide-name">Indriya Birla</span></div>
-        <div class="logo-slide"><img src="images/logo-kalamandir.png" alt="Kalamandir"><span class="logo-slide-name">Kalamandir</span></div>
-        <div class="logo-slide"><img src="images/logo-metro-brands.png" alt="Metro Brands"><span class="logo-slide-name">Metro Brands</span></div>
-        <div class="logo-slide"><img src="images/logo-png-jewellers.png" alt="PNG Jewellers"><span class="logo-slide-name">PNG Jewellers</span></div>
-        <div class="logo-slide"><img src="images/logo-portico.png" alt="Portico"><span class="logo-slide-name">Portico</span></div>
-        <div class="logo-slide"><img src="images/logo-reliance-digital.png" alt="Reliance Digital"><span class="logo-slide-name">Reliance Digital</span></div>
-        <div class="logo-slide"><img src="images/logo-reliance-jewels.png" alt="Reliance Jewels"><span class="logo-slide-name">Reliance Jewels</span></div>
-        <div class="logo-slide"><img src="images/logo-rosso-brunello.png" alt="Rosso Brunello"><span class="logo-slide-name">Rosso Brunello</span></div>
-        <div class="logo-slide"><img src="images/logo-siddha-sky.png" alt="Siddha Sky"><span class="logo-slide-name">Siddha Sky</span></div>
-        <div class="logo-slide"><img src="images/logo-mufti.png" alt="Mufti"><span class="logo-slide-name">Mufti</span></div>
-        <div class="logo-slide"><img src="images/logo-home-centre.png" alt="Home Centre"><span class="logo-slide-name">Home Centre</span></div>
-        <div class="logo-slide"><img src="images/logo-global-desi.png" alt="Global Desi"><span class="logo-slide-name">Global Desi</span></div>
-        <div class="logo-slide"><img src="images/logo-decathlon.png" alt="Decathlon"><span class="logo-slide-name">Decathlon</span></div>
-        <div class="logo-slide"><img src="images/logo-jlr.png" alt="Jaguar Land Rover"><span class="logo-slide-name">Jaguar Land Rover</span></div>
-        <div class="logo-slide"><img src="images/logo-usha-janome.png" alt="Usha Janome"><span class="logo-slide-name">Usha Janome</span></div>
-        <div class="logo-slide"><img src="images/logo-cotton-king.png" alt="Cotton King"><span class="logo-slide-name">Cotton King</span></div>
-        <div class="logo-slide"><img src="images/logo-winter-cafe.png" alt="Winter Cafe"><span class="logo-slide-name">Winter Cafe</span></div>
+        <div class="logo-slide"><img src="images/logo-shoppers-stop.png" alt="Shoppers Stop"></div>
+        <div class="logo-slide"><img src="images/logo-indriya-birla.png" alt="Indriya Birla"></div>
+        <div class="logo-slide"><img src="images/logo-kalamandir.png" alt="Kalamandir"></div>
+        <div class="logo-slide"><img src="images/logo-metro-brands.png" alt="Metro Brands"></div>
+        <div class="logo-slide"><img src="images/logo-png-jewellers.png" alt="PNG Jewellers"></div>
+        <div class="logo-slide"><img src="images/logo-portico.png" alt="Portico"></div>
+        <div class="logo-slide"><img src="images/logo-reliance-digital.png" alt="Reliance Digital"></div>
+        <div class="logo-slide"><img src="images/logo-reliance-jewels.png" alt="Reliance Jewels"></div>
+        <div class="logo-slide"><img src="images/logo-rosso-brunello.png" alt="Rosso Brunello"></div>
+        <div class="logo-slide"><img src="images/logo-siddha-sky.png" alt="Siddha Sky"></div>
+        <div class="logo-slide"><img src="images/logo-mufti.png" alt="Mufti"></div>
+        <div class="logo-slide"><img src="images/logo-home-centre.png" alt="Home Centre"></div>
+        <div class="logo-slide"><img src="images/logo-global-desi.png" alt="Global Desi"></div>
+        <div class="logo-slide"><img src="images/logo-decathlon.png" alt="Decathlon"></div>
+        <div class="logo-slide"><img src="images/logo-jlr.png" alt="Jaguar Land Rover"></div>
+        <div class="logo-slide"><img src="images/logo-usha-janome.png" alt="Usha Janome"></div>
+        <div class="logo-slide"><img src="images/logo-cotton-king.png" alt="Cotton King"></div>
+        <div class="logo-slide"><img src="images/logo-winter-cafe.png" alt="Winter Cafe"></div>
         <!-- Duplicate set for seamless loop -->
-        <div class="logo-slide"><img src="images/logo-shoppers-stop.png" alt="Shoppers Stop"><span class="logo-slide-name">Shoppers Stop</span></div>
-        <div class="logo-slide"><img src="images/logo-indriya-birla.png" alt="Indriya Birla"><span class="logo-slide-name">Indriya Birla</span></div>
-        <div class="logo-slide"><img src="images/logo-kalamandir.png" alt="Kalamandir"><span class="logo-slide-name">Kalamandir</span></div>
-        <div class="logo-slide"><img src="images/logo-metro-brands.png" alt="Metro Brands"><span class="logo-slide-name">Metro Brands</span></div>
-        <div class="logo-slide"><img src="images/logo-png-jewellers.png" alt="PNG Jewellers"><span class="logo-slide-name">PNG Jewellers</span></div>
-        <div class="logo-slide"><img src="images/logo-portico.png" alt="Portico"><span class="logo-slide-name">Portico</span></div>
-        <div class="logo-slide"><img src="images/logo-reliance-digital.png" alt="Reliance Digital"><span class="logo-slide-name">Reliance Digital</span></div>
-        <div class="logo-slide"><img src="images/logo-reliance-jewels.png" alt="Reliance Jewels"><span class="logo-slide-name">Reliance Jewels</span></div>
-        <div class="logo-slide"><img src="images/logo-rosso-brunello.png" alt="Rosso Brunello"><span class="logo-slide-name">Rosso Brunello</span></div>
-        <div class="logo-slide"><img src="images/logo-siddha-sky.png" alt="Siddha Sky"><span class="logo-slide-name">Siddha Sky</span></div>
-        <div class="logo-slide"><img src="images/logo-mufti.png" alt="Mufti"><span class="logo-slide-name">Mufti</span></div>
-        <div class="logo-slide"><img src="images/logo-home-centre.png" alt="Home Centre"><span class="logo-slide-name">Home Centre</span></div>
-        <div class="logo-slide"><img src="images/logo-global-desi.png" alt="Global Desi"><span class="logo-slide-name">Global Desi</span></div>
-        <div class="logo-slide"><img src="images/logo-decathlon.png" alt="Decathlon"><span class="logo-slide-name">Decathlon</span></div>
-        <div class="logo-slide"><img src="images/logo-jlr.png" alt="Jaguar Land Rover"><span class="logo-slide-name">Jaguar Land Rover</span></div>
-        <div class="logo-slide"><img src="images/logo-usha-janome.png" alt="Usha Janome"><span class="logo-slide-name">Usha Janome</span></div>
-        <div class="logo-slide"><img src="images/logo-cotton-king.png" alt="Cotton King"><span class="logo-slide-name">Cotton King</span></div>
-        <div class="logo-slide"><img src="images/logo-winter-cafe.png" alt="Winter Cafe"><span class="logo-slide-name">Winter Cafe</span></div>
+        <div class="logo-slide"><img src="images/logo-shoppers-stop.png" alt="Shoppers Stop"></div>
+        <div class="logo-slide"><img src="images/logo-indriya-birla.png" alt="Indriya Birla"></div>
+        <div class="logo-slide"><img src="images/logo-kalamandir.png" alt="Kalamandir"></div>
+        <div class="logo-slide"><img src="images/logo-metro-brands.png" alt="Metro Brands"></div>
+        <div class="logo-slide"><img src="images/logo-png-jewellers.png" alt="PNG Jewellers"></div>
+        <div class="logo-slide"><img src="images/logo-portico.png" alt="Portico"></div>
+        <div class="logo-slide"><img src="images/logo-reliance-digital.png" alt="Reliance Digital"></div>
+        <div class="logo-slide"><img src="images/logo-reliance-jewels.png" alt="Reliance Jewels"></div>
+        <div class="logo-slide"><img src="images/logo-rosso-brunello.png" alt="Rosso Brunello"></div>
+        <div class="logo-slide"><img src="images/logo-siddha-sky.png" alt="Siddha Sky"></div>
+        <div class="logo-slide"><img src="images/logo-mufti.png" alt="Mufti"></div>
+        <div class="logo-slide"><img src="images/logo-home-centre.png" alt="Home Centre"></div>
+        <div class="logo-slide"><img src="images/logo-global-desi.png" alt="Global Desi"></div>
+        <div class="logo-slide"><img src="images/logo-decathlon.png" alt="Decathlon"></div>
+        <div class="logo-slide"><img src="images/logo-jlr.png" alt="Jaguar Land Rover"></div>
+        <div class="logo-slide"><img src="images/logo-usha-janome.png" alt="Usha Janome"></div>
+        <div class="logo-slide"><img src="images/logo-cotton-king.png" alt="Cotton King"></div>
+        <div class="logo-slide"><img src="images/logo-winter-cafe.png" alt="Winter Cafe"></div>
       </div>
     </div>
   </div>
@@ -1290,6 +1334,95 @@
   </div>
 </section>
 
+<!-- WRITE A REVIEW -->
+<section class="write-review-section fade-section" id="write-review">
+  <div class="container">
+    <div style="text-align:center;max-width:620px;margin:0 auto">
+      <span class="section-label" style="justify-content:center">Share Your Experience</span>
+      <h2 class="section-title">Leave Us a Review</h2>
+      <p class="section-sub" style="margin:0 auto">We'd love to hear from you! Real feedback from real clients helps us grow — and helps others choose with confidence.</p>
+    </div>
+    <div class="write-review-wrap reveal">
+      <div class="write-review-box" id="writeReviewBox">
+        <div style="margin-bottom:1.25rem">
+          <div style="font-size:0.85rem;font-weight:700;color:var(--gray-dark);margin-bottom:8px">Your Rating *</div>
+          <div class="star-picker" id="starPicker">
+            <button type="button" data-star="1" onclick="setReviewStar(1)" aria-label="1 star">★</button>
+            <button type="button" data-star="2" onclick="setReviewStar(2)" aria-label="2 stars">★</button>
+            <button type="button" data-star="3" onclick="setReviewStar(3)" aria-label="3 stars">★</button>
+            <button type="button" data-star="4" onclick="setReviewStar(4)" aria-label="4 stars">★</button>
+            <button type="button" data-star="5" onclick="setReviewStar(5)" aria-label="5 stars">★</button>
+          </div>
+        </div>
+        <div class="review-name-row">
+          <div class="form-group" style="margin-bottom:0">
+            <label>Your Name *</label>
+            <input type="text" id="reviewerName" placeholder="e.g. Priya Sharma">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label>Company / Role</label>
+            <input type="text" id="reviewerCompany" placeholder="e.g. Manager, XYZ Store">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:1rem">
+          <label>Your Review *</label>
+          <textarea id="reviewText" rows="4" placeholder="Tell us about your experience — quality, speed, team, or anything that stood out..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Service Used</label>
+          <select id="reviewService">
+            <option value="">Select (optional)...</option>
+            <option>Banner Prints</option>
+            <option>Laser / Router Cutting</option>
+            <option>Shop Boards</option>
+            <option>Vinyl Cutting & Printing</option>
+            <option>LED Signboard</option>
+            <option>Vehicle Branding</option>
+            <option>Customized Gifts</option>
+            <option>Pole Branding</option>
+            <option>Store Branding / Rebrand</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <button type="button" class="form-submit" onclick="submitHumanReview()" style="margin-top:0.25rem">⭐ Submit My Review</button>
+      </div>
+
+      <!-- Success message -->
+      <div class="review-submitted-msg" id="reviewSubmittedMsg">
+        <div class="check">🎉</div>
+        <h3>Thank You for Your Review!</h3>
+        <p>Your feedback means the world to us. It helps other businesses discover Sardigi Prints and motivates our team to keep delivering great work.</p>
+        <button class="form-submit" style="margin-top:1.25rem;max-width:240px" onclick="resetReviewForm()">✍️ Write Another Review</button>
+      </div>
+
+      <!-- Live review feed -->
+      <div class="review-live-feed" id="reviewLiveFeed">
+        <div class="review-live-feed-title">Recent Reviews</div>
+        <div class="live-review-list" id="liveReviewList">
+          <!-- Seed reviews so the feed isn't empty on first load -->
+          <div class="live-review-item">
+            <div class="lri-top">
+              <div class="lri-avatar">PM</div>
+              <div><div class="lri-name">Priya Mehta</div><div class="lri-label">Owner, Mehta Furnishings</div></div>
+              <div class="lri-stars">★★★★★</div>
+            </div>
+            <div class="lri-text">Incredible quality on our shop board signage. The team was responsive and delivered ahead of schedule. Will definitely order again!</div>
+            <div class="lri-time">Shop Boards · Just now</div>
+          </div>
+          <div class="live-review-item">
+            <div class="lri-top">
+              <div class="lri-avatar" style="background:#8B0000">RS</div>
+              <div><div class="lri-name">Rahul Sharma</div><div class="lri-label">Marketing, Pune Branch</div></div>
+              <div class="lri-stars">★★★★★</div>
+            </div>
+            <div class="lri-text">Used Sardigi for our event banners in Pune. Super sharp prints, excellent colour accuracy. Very happy with the outcome.</div>
+            <div class="lri-time">Banner Prints · 2 days ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -1878,6 +2011,123 @@ function switchTab(tab){
   document.getElementById('tabOrderBtn').style.color = isQuote ? 'rgba(255,255,255,0.7)' : '#fff';
 }
 
+/* ── WRITE A REVIEW (shared across ALL devices via Airtable) ── */
+const AT_TOKEN = 'patqGm3yAKQ7fn8n3.7d10f748e2ddc156b6d306e74e30d328629043559d2bb06d5efbd3f6d75c02ad';
+const AT_BASE  = 'appDycf3qsu0CO8zZ';
+const AT_TABLE = 'Table 1';
+const AT_URL   = `https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(AT_TABLE)}`;
+const AT_HEADS = { 'Authorization': 'Bearer ' + AT_TOKEN, 'Content-Type': 'application/json' };
+
+async function cloudGetReviews(){
+  try{
+    const res = await fetch(AT_URL + '?sort[0][field]=date&sort[0][direction]=desc&maxRecords=50', { headers: AT_HEADS });
+    if(!res.ok) return [];
+    const data = await res.json();
+    return (data.records || []).map(r => r.fields);
+  }catch(e){ return []; }
+}
+
+async function cloudPushReview(reviewData){
+  try{
+    await fetch(AT_URL, {
+      method: 'POST',
+      headers: AT_HEADS,
+      body: JSON.stringify({ fields: reviewData })
+    });
+  }catch(e){}
+}
+
+let selectedReviewStars = 0;
+
+function setReviewStar(n){
+  selectedReviewStars = n;
+  document.querySelectorAll('#starPicker button').forEach((b,i)=>{
+    b.classList.toggle('active', i < n);
+  });
+}
+
+function buildReviewItem(r){
+  const item = document.createElement('div');
+  item.className = 'live-review-item';
+  item.innerHTML = `<div class="lri-top">
+    <div class="lri-avatar" style="background:${r.color}">${r.initials}</div>
+    <div><div class="lri-name">${r.name}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
+    <div class="lri-stars">${r.stars}</div>
+  </div>
+  <div class="lri-text">${r.text}</div>
+  <div class="lri-time">${r.service||'General'} · ${r.date||'Just now'}</div>`;
+  return item;
+}
+
+async function loadSavedReviews(){
+  const list = document.getElementById('liveReviewList');
+  try{
+    const saved = await cloudGetReviews();
+    saved.slice(0,20).forEach(r=>{ list.appendChild(buildReviewItem(r)); });
+  }catch(e){ /* silently skip if Firebase not yet configured */ }
+}
+
+function setReviewStar(n){
+  selectedReviewStars = n;
+  document.querySelectorAll('#starPicker button').forEach((b,i)=>{
+    b.classList.toggle('active', i < n);
+  });
+}
+
+function buildReviewItem(r){
+  const item = document.createElement('div');
+  item.className = 'live-review-item';
+  item.innerHTML = `<div class="lri-top">
+    <div class="lri-avatar" style="background:${r.color}">${r.initials}</div>
+    <div><div class="lri-name">${r.name}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
+    <div class="lri-stars">${r.stars}</div>
+  </div>
+  <div class="lri-text">${r.text}</div>
+  <div class="lri-time">${r.service||'General'} · ${r.date||'Just now'}</div>`;
+  return item;
+}
+
+async function submitHumanReview(){
+  const name = document.getElementById('reviewerName').value.trim();
+  const text = document.getElementById('reviewText').value.trim();
+  if(!name){ alert('Please enter your name.'); return; }
+  if(!selectedReviewStars){ alert('Please select a star rating.'); return; }
+  if(!text){ alert('Please write a short review.'); return; }
+
+  const company = document.getElementById('reviewerCompany').value.trim();
+  const service = document.getElementById('reviewService').value;
+  const stars = '★'.repeat(selectedReviewStars) + '☆'.repeat(5 - selectedReviewStars);
+  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const colors = ['#CC0000','#8B0000','#4a0000','#003366','#006633','#CC4400'];
+  const color = colors[Math.floor(Math.random()*colors.length)];
+  const now = new Date();
+  const date = now.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+
+  const reviewData = {name,company,text,service,stars,initials,color,date};
+
+  // Show optimistically in UI immediately
+  const list = document.getElementById('liveReviewList');
+  list.prepend(buildReviewItem(reviewData));
+  document.getElementById('writeReviewBox').style.display = 'none';
+  document.getElementById('reviewSubmittedMsg').style.display = 'block';
+
+  // Push to Firebase so ALL devices see it
+  await cloudPushReview(reviewData);
+}
+
+function resetReviewForm(){
+  selectedReviewStars = 0;
+  document.querySelectorAll('#starPicker button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('reviewerName').value = '';
+  document.getElementById('reviewerCompany').value = '';
+  document.getElementById('reviewText').value = '';
+  document.getElementById('reviewService').value = '';
+  document.getElementById('writeReviewBox').style.display = 'block';
+  document.getElementById('reviewSubmittedMsg').style.display = 'none';
+}
+
+// Load shared reviews from cloud when page opens
+document.addEventListener('DOMContentLoaded', loadSavedReviews);
 
 /* ── REVIEWS CAROUSEL ── */
 (function(){
