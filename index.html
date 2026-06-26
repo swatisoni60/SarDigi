@@ -6,6 +6,7 @@
 <meta name="description" content="Sardigi Prints - Mumbai's premier printing, signage, branding, and customized gifting company. Acrylic letters, LED signage, vehicle branding, and more.">
 <meta name="keywords" content="printing Mumbai, signage Mumbai, branding Mumbai, acrylic letters, LED signboards, vinyl printing, Sardigi Prints">
 <title>Sardigi Prints | Signages & Printing Services Mumbai</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23CC0000'/><text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='Arial'>S</text></svg>">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
@@ -924,7 +925,6 @@
         loop
         playsinline
         style="width:100%;display:block;border-radius:14px;background:#000"
-        poster="images/video-poster.jpg"
       >
         Your browser does not support HTML5 video.
       </video>
@@ -2014,34 +2014,41 @@ function switchTab(tab){
 /* ── WRITE A REVIEW (shared across ALL devices via Airtable) ── */
 const AT_TOKEN = 'patqGm3yAKQ7fn8n3.7d10f748e2ddc156b6d306e74e30d328629043559d2bb06d5efbd3f6d75c02ad';
 const AT_BASE  = 'appDycf3qsu0CO8zZ';
-const AT_TABLE = 'tblQyiQZ5qZXjKr0d';
-const AT_URL   = 'https://api.airtable.com/v0/' + AT_BASE + '/' + AT_TABLE;
+const AT_TABLE = 'Table 1';
+const AT_URL   = `https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(AT_TABLE)}`;
 const AT_HEADS = { 'Authorization': 'Bearer ' + AT_TOKEN, 'Content-Type': 'application/json' };
 
 async function cloudGetReviews(){
   try{
-    const res = await fetch(AT_URL + '?maxRecords=50', { headers: AT_HEADS });
-    if(!res.ok){
-      console.warn('Airtable GET failed:', res.status);
-      return [];
-    }
+    const res = await fetch(AT_URL + '?sort[0][field]=date&sort[0][direction]=desc&maxRecords=50', { headers: AT_HEADS });
+    if(!res.ok) return [];
     const data = await res.json();
-    return (data.records || []).map(r => r.fields).reverse();
-  }catch(e){
-    console.warn('Airtable fetch error:', e);
-    return [];
-  }
+    return (data.records || []).map(r => r.fields);
+  }catch(e){ return []; }
 }
 
 async function cloudPushReview(reviewData){
   try{
+    // Airtable requires records array; only send fields that exist in your base.
+    // Field names below must exactly match your Airtable column names (case-sensitive).
+    const fields = {
+      name:    reviewData.name    || '',
+      company: reviewData.company || '',
+      text:    reviewData.text    || '',
+      service: reviewData.service || '',
+      stars:   reviewData.stars   || '',
+      date:    reviewData.date    || '',
+    };
     const res = await fetch(AT_URL, {
       method: 'POST',
       headers: AT_HEADS,
-      body: JSON.stringify({ fields: reviewData })
+      body: JSON.stringify({ records: [{ fields }] })
     });
-    if(!res.ok) console.warn('Airtable POST failed:', res.status);
-  }catch(e){ console.warn('Airtable push error:', e); }
+    if(!res.ok){
+      const err = await res.json().catch(()=>({}));
+      console.warn('Airtable POST error:', res.status, err);
+    }
+  }catch(e){ console.warn('Airtable push failed:', e); }
 }
 
 let selectedReviewStars = 0;
@@ -2057,11 +2064,11 @@ function buildReviewItem(r){
   const item = document.createElement('div');
   item.className = 'live-review-item';
   item.innerHTML = `<div class="lri-top">
-    <div class="lri-avatar" style="background:${r.color||'#CC0000'}">${r.initials||'?'}</div>
-    <div><div class="lri-name">${r.name||''}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
-    <div class="lri-stars">${r.stars||'★★★★★'}</div>
+    <div class="lri-avatar" style="background:${r.color}">${r.initials}</div>
+    <div><div class="lri-name">${r.name}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
+    <div class="lri-stars">${r.stars}</div>
   </div>
-  <div class="lri-text">${r.text||''}</div>
+  <div class="lri-text">${r.text}</div>
   <div class="lri-time">${r.service||'General'} · ${r.date||'Just now'}</div>`;
   return item;
 }
@@ -2070,9 +2077,8 @@ async function loadSavedReviews(){
   const list = document.getElementById('liveReviewList');
   try{
     const saved = await cloudGetReviews();
-    list.innerHTML = '';
     saved.slice(0,20).forEach(r=>{ list.appendChild(buildReviewItem(r)); });
-  }catch(e){}
+  }catch(e){ /* silently skip if Firebase not yet configured */ }
 }
 
 function setReviewStar(n){
@@ -2080,6 +2086,19 @@ function setReviewStar(n){
   document.querySelectorAll('#starPicker button').forEach((b,i)=>{
     b.classList.toggle('active', i < n);
   });
+}
+
+function buildReviewItem(r){
+  const item = document.createElement('div');
+  item.className = 'live-review-item';
+  item.innerHTML = `<div class="lri-top">
+    <div class="lri-avatar" style="background:${r.color}">${r.initials}</div>
+    <div><div class="lri-name">${r.name}</div><div class="lri-label">${r.company||'Sardigi Client'}</div></div>
+    <div class="lri-stars">${r.stars}</div>
+  </div>
+  <div class="lri-text">${r.text}</div>
+  <div class="lri-time">${r.service||'General'} · ${r.date||'Just now'}</div>`;
+  return item;
 }
 
 async function submitHumanReview(){
@@ -2100,11 +2119,14 @@ async function submitHumanReview(){
 
   const reviewData = {name,company,text,service,stars,initials,color,date};
 
+  // Show optimistically in UI immediately
+  const list = document.getElementById('liveReviewList');
+  list.prepend(buildReviewItem(reviewData));
   document.getElementById('writeReviewBox').style.display = 'none';
   document.getElementById('reviewSubmittedMsg').style.display = 'block';
 
+  // Push to Firebase so ALL devices see it
   await cloudPushReview(reviewData);
-  setTimeout(loadSavedReviews, 1500);
 }
 
 function resetReviewForm(){
@@ -2118,11 +2140,8 @@ function resetReviewForm(){
   document.getElementById('reviewSubmittedMsg').style.display = 'none';
 }
 
-// Load from Airtable on open, auto-refresh every 30s
-document.addEventListener('DOMContentLoaded', ()=>{
-  loadSavedReviews();
-  setInterval(loadSavedReviews, 30000);
-});
+// Load shared reviews from cloud when page opens
+document.addEventListener('DOMContentLoaded', loadSavedReviews);
 
 /* ── REVIEWS CAROUSEL ── */
 (function(){
