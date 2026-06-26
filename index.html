@@ -2014,27 +2014,34 @@ function switchTab(tab){
 /* ── WRITE A REVIEW (shared across ALL devices via Airtable) ── */
 const AT_TOKEN = 'patqGm3yAKQ7fn8n3.7d10f748e2ddc156b6d306e74e30d328629043559d2bb06d5efbd3f6d75c02ad';
 const AT_BASE  = 'appDycf3qsu0CO8zZ';
-const AT_TABLE = 'Table 1';
-const AT_URL   = `https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(AT_TABLE)}`;
+const AT_TABLE = 'tblQyiQZ5qZXjKr0d';
+const AT_URL   = 'https://api.airtable.com/v0/' + AT_BASE + '/' + AT_TABLE;
 const AT_HEADS = { 'Authorization': 'Bearer ' + AT_TOKEN, 'Content-Type': 'application/json' };
 
 async function cloudGetReviews(){
   try{
-    const res = await fetch(AT_URL + '?sort[0][field]=date&sort[0][direction]=desc&maxRecords=50', { headers: AT_HEADS });
-    if(!res.ok) return [];
+    const res = await fetch(AT_URL + '?maxRecords=50', { headers: AT_HEADS });
+    if(!res.ok){
+      console.warn('Airtable GET failed:', res.status);
+      return [];
+    }
     const data = await res.json();
-    return (data.records || []).map(r => r.fields);
-  }catch(e){ return []; }
+    return (data.records || []).map(r => r.fields).reverse();
+  }catch(e){
+    console.warn('Airtable fetch error:', e);
+    return [];
+  }
 }
 
 async function cloudPushReview(reviewData){
   try{
-    await fetch(AT_URL, {
+    const res = await fetch(AT_URL, {
       method: 'POST',
       headers: AT_HEADS,
       body: JSON.stringify({ fields: reviewData })
     });
-  }catch(e){}
+    if(!res.ok) console.warn('Airtable POST failed:', res.status);
+  }catch(e){ console.warn('Airtable push error:', e); }
 }
 
 let selectedReviewStars = 0;
