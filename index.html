@@ -673,6 +673,7 @@
         <div class="nav-avatar" id="navAvatar"></div>
         <div>
           <div class="nav-account-name" id="navAccountName"></div>
+          <button class="nav-logout" onclick="openMyOrders()" style="margin-right:10px;text-decoration:underline;background:none;border:none;color:rgba(255,255,255,.55);font-size:.78rem;cursor:pointer;padding:0">My Orders</button>
           <button class="nav-logout" onclick="logoutUser()">Log out</button>
         </div>
       </div>
@@ -759,6 +760,18 @@
         <p class="auth-note">This is a browser-based login stored on your own device. Passwords never leave the browser, but for a public site handling real customer accounts, a proper server-side login system is what actually keeps data safe long-term.</p>
       </form>
     </div>
+  </div>
+</div>
+
+<!-- MY ORDERS -->
+<div class="auth-modal-overlay" id="myOrdersModal" onclick="closeMyOrders(event)">
+  <div class="auth-modal" id="myOrdersModalBox" style="max-width:640px">
+    <button class="auth-modal-close" onclick="closeMyOrders()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="auth-title" style="margin-bottom:1.25rem">My Orders &amp; Quote Requests</h3>
+    <div id="myOrdersList"></div>
+    <p class="auth-note">Requests are tied to your account email, so you'll see them here no matter which device or browser you log in from.</p>
   </div>
 </div>
 
@@ -1355,9 +1368,12 @@
             </div>
           </div>
         </div>
-        <div style="margin-top:1.5rem">
+        <div style="margin-top:1.5rem;display:flex;gap:0.85rem;flex-wrap:wrap;align-items:center">
           <a href="https://wa.me/919870752589?text=Hello%20Sardigi%20Prints%2C%20I%20need%20a%20quote." class="btn-primary btn" target="_blank">Chat on WhatsApp</a>
+          <button type="button" class="btn-outline btn" id="payNowBtn" onclick="startRazorpayPayment()" style="color:#fff">Pay Now</button>
         </div>
+        <p style="margin-top:0.6rem;font-size:0.78rem;color:rgba(255,255,255,0.4)">Already have a confirmed amount from our team? Tap Pay Now. Otherwise, WhatsApp us for a quote first.</p>
+        <div id="payStatusMsg" style="margin-top:0.5rem;font-size:0.85rem;display:none"></div>
         <div style="margin-top:1.5rem;border-radius:8px;overflow:hidden;height:220px">
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.013!2d72.8566!3d19.1558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA5JzIwLjkiTiA3MsKwNTEnMjMuOCJF!5e0!3m2!1sen!2sin!4v1234567890" width="100%" height="220" style="border:0;filter:grayscale(80%)" allowfullscreen loading="lazy"></iframe>
         </div>
@@ -1509,7 +1525,7 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2025 Sardigi Prints. All rights reserved.</div>
-      <div class="footer-emails">sardigiprints@gmail.com</div>
+      <div class="footer-emails">sardigiprints@gmail.com &nbsp;·&nbsp; <a href="admin-login.html" style="color:inherit;opacity:.5;text-decoration:underline">Admin</a></div>
     </div>
   </div>
 </footer>
@@ -1758,6 +1774,103 @@ function renderAuthState(){
 document.addEventListener('DOMContentLoaded', renderAuthState);
 renderAuthState();
 
+// ── ORDER / QUOTE HISTORY (shared across devices via Airtable) ──
+// Every submitted order/quote is saved to a shared Airtable table, tagged
+// with the customer's account email at the moment of submission, so each
+// customer only ever sees their own requests — never another customer's —
+// no matter which device or browser they're on.
+const AIRTABLE_BASE_ID = 'appndQsB1cYQ87EXg';
+const AIRTABLE_TABLE = 'Requests';
+const AIRTABLE_TOKEN = 'patrXqgkO1w2ZwfH5.1440012709a8819fae6507d30a8634f83a60458230186c28e547f3d2054d3574';
+const AIRTABLE_API_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}`;
+
+async function saveOrderRecord(data){
+  const session = getCurrentSession();
+  const fields = {
+    Name: data.name || '',
+    Notes: data.notes || '',
+    SubmittedAt: new Date().toISOString(),
+    type: data.type || '',
+    ref: data.ref || '',
+    Phone: data.phone || '',
+    Email: data.email || '',
+    Service: data.service || '',
+    Qty: data.qty || '',
+    Size: data.size || '',
+    Files: data.files || '',
+    AccountName: session ? session.name : 'Guest',
+    AccountEmail: session ? session.email : ''
+  };
+
+  try{
+    await fetch(AIRTABLE_API_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + AIRTABLE_TOKEN,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ records: [{ fields }] })
+    });
+  } catch(e){
+    // Non-fatal: the email/WhatsApp path already delivered the request,
+    // this is just the dashboard copy.
+    console.error('Airtable save failed:', e);
+  }
+}
+
+async function fetchOrdersForEmail(email){
+  const formula = encodeURIComponent(`{AccountEmail} = "${email}"`);
+  const url = `${AIRTABLE_API_URL}?filterByFormula=${formula}&sort[0][field]=SubmittedAt&sort[0][direction]=desc`;
+  const res = await fetch(url, {
+    headers: { 'Authorization': 'Bearer ' + AIRTABLE_TOKEN }
+  });
+  if(!res.ok) throw new Error('Airtable fetch failed: ' + res.status);
+  const data = await res.json();
+  return (data.records || []).map(r => r.fields);
+}
+
+async function openMyOrders(){
+  const session = getCurrentSession();
+  const list = document.getElementById('myOrdersList');
+  document.getElementById('myOrdersModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  if(!session){
+    list.innerHTML = '<p style="color:var(--gray-mid);font-size:0.9rem">Please log in to see your orders.</p>';
+    return;
+  }
+
+  list.innerHTML = '<p style="color:var(--gray-mid);font-size:0.9rem">Loading your requests...</p>';
+  try{
+    const mine = await fetchOrdersForEmail(session.email);
+    if(!mine.length){
+      list.innerHTML = '<p style="color:var(--gray-mid);font-size:0.9rem">No orders or quote requests yet. Submit one from the Get Quote / Upload Artwork section.</p>';
+    } else {
+      list.innerHTML = mine.map(o => `
+        <div style="border:1px solid #eee;border-radius:8px;padding:1rem 1.1rem;margin-bottom:0.75rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem">
+            <strong style="font-size:0.92rem">${o.type || ''} — ${o.ref || ''}</strong>
+            <span style="font-size:0.75rem;color:var(--gray-mid)">${o.SubmittedAt ? new Date(o.SubmittedAt).toLocaleString() : ''}</span>
+          </div>
+          <div style="font-size:0.85rem;color:var(--gray-dark);line-height:1.6">
+            ${o.Service ? 'Service: ' + o.Service + '<br>' : ''}
+            ${o.Qty ? 'Qty: ' + o.Qty + '<br>' : ''}
+            ${o.Size ? 'Size: ' + o.Size + '<br>' : ''}
+            ${o.Notes ? 'Notes: ' + o.Notes : ''}
+          </div>
+        </div>`).join('');
+    }
+  } catch(e){
+    console.error(e);
+    list.innerHTML = '<p style="color:#c0392b;font-size:0.9rem">Could not load your orders right now. Please try again shortly.</p>';
+  }
+}
+function closeMyOrders(event){
+  if(event && event.target !== event.currentTarget && event.type === 'click') return;
+  document.getElementById('myOrdersModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 // Close the auth modal with Escape, matching the product modal's behaviour.
 document.addEventListener('keydown', (e) => {
   if(e.key === 'Escape' && document.getElementById('authModal').classList.contains('open')){
@@ -1922,6 +2035,10 @@ function submitOrder(){
     .then(()=>{
       btn.textContent = 'Submit Order Request';
       btn.disabled = false;
+      saveOrderRecord({
+        type: 'Order', ref, name, phone, email,
+        service, qty, size, notes, files: fileNote
+      });
       showThankYou(ref);
 
       // Also open WhatsApp with order summary
@@ -2020,6 +2137,10 @@ function submitQuote(){
     .then(()=>{
       btn.textContent = 'Send Quote Request';
       btn.disabled = false;
+      saveOrderRecord({
+        type: 'Quote', ref, name, phone, email: '',
+        service, qty: '', size: '', notes: message, files: ''
+      });
       showThankYou(ref);
 
       const msg = [
@@ -2278,6 +2399,73 @@ function switchTab(tab){
   document.getElementById('tabOrderBtn').style.color = isQuote ? 'rgba(255,255,255,0.7)' : '#fff';
 }
 
+/* ── RAZORPAY PAYMENT ── */
+// TODO: Replace with your live/test Razorpay Key ID from https://dashboard.razorpay.com/app/keys
+const RAZORPAY_KEY_ID = 'YOUR_RAZORPAY_KEY_ID';
+
+function startRazorpayPayment(){
+  const statusMsg = document.getElementById('payStatusMsg');
+  const payBtn = document.getElementById('payNowBtn');
+
+  if(RAZORPAY_KEY_ID === 'YOUR_RAZORPAY_KEY_ID'){
+    alert('Payment is not fully set up yet — the Razorpay Key ID needs to be added in the code. See the TODO comment near RAZORPAY_KEY_ID.');
+    return;
+  }
+  if(typeof Razorpay === 'undefined'){
+    alert('Payment gateway failed to load. Please check your internet connection and try again.');
+    return;
+  }
+
+  const amountInput = window.prompt('Enter the amount confirmed by our team (₹):');
+  if(amountInput === null) return; // cancelled
+  const amount = parseFloat(amountInput);
+  if(!amount || amount <= 0){
+    alert('Please enter a valid amount.');
+    return;
+  }
+
+  payBtn.disabled = true;
+  payBtn.textContent = 'Opening secure checkout...';
+
+  const options = {
+    key: RAZORPAY_KEY_ID,
+    amount: Math.round(amount * 100), // Razorpay expects the amount in paise
+    currency: 'INR',
+    name: 'Sardigi Prints',
+    description: 'Payment to Sardigi Prints',
+    theme: { color: '#CC0000' },
+    handler: function(response){
+      statusMsg.style.display = 'block';
+      statusMsg.style.color = '#4ADE80';
+      statusMsg.textContent = 'Payment successful! Payment ID: ' + response.razorpay_payment_id + '. Our team will confirm shortly.';
+      payBtn.disabled = false;
+      payBtn.textContent = 'Pay Now';
+
+      // Notify the shop via WhatsApp with the payment reference
+      const waText = encodeURIComponent(
+        `Payment received on website.\nAmount: ₹${amount}\nPayment ID: ${response.razorpay_payment_id}`
+      );
+      window.open(`https://wa.me/919870752589?text=${waText}`, '_blank');
+    },
+    modal: {
+      ondismiss: function(){
+        payBtn.disabled = false;
+        payBtn.textContent = 'Pay Now';
+      }
+    }
+  };
+
+  const rzp = new Razorpay(options);
+  rzp.on('payment.failed', function(response){
+    statusMsg.style.display = 'block';
+    statusMsg.style.color = '#FF6B6B';
+    statusMsg.textContent = 'Payment failed: ' + response.error.description + '. Please try again or contact us on WhatsApp.';
+    payBtn.disabled = false;
+    payBtn.textContent = 'Pay Now';
+  });
+  rzp.open();
+}
+
 /* ── REVIEWS CAROUSEL ── */
 (function(){
   const track = document.getElementById('reviewsTrack');
@@ -2328,5 +2516,6 @@ function switchTab(tab){
 })();
 
 </script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 </html>
