@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Sardigi Prints</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--red:#CC0000;--red-dark:#990000;--black:#111111;--white:#FFFFFF;--gray:#F5F5F5;--gray-mid:#888888;--gray-dark:#333333}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--gray);color:var(--black);min-height:100vh}
+  header{background:var(--black);color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo-icon{width:36px;height:36px;background:var(--red);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;color:#fff;clip-path:polygon(0 0,100% 0,100% 75%,85% 100%,0 100%)}
+  .logo-text{font-weight:700;font-size:1rem}
+  .logo-text span{color:var(--red)}
+  .who{font-size:.85rem;color:rgba(255,255,255,.7)}
+  .logout-btn{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:#fff;padding:.4rem .9rem;border-radius:100px;font-size:.82rem;font-weight:600;cursor:pointer}
+  .logout-btn:hover{border-color:var(--red);color:var(--red)}
+  main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.75rem}
+  .stat{background:#fff;border-radius:10px;padding:1.1rem 1.25rem;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+  .stat .num{font-size:1.6rem;font-weight:800;color:var(--red)}
+  .stat .label{font-size:.78rem;color:var(--gray-mid);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+  .toolbar{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center}
+  .toolbar input,.toolbar select{border:1.5px solid #ddd;border-radius:6px;padding:.55rem .8rem;font-size:.85rem;font-family:inherit;background:#fff}
+  .toolbar input{flex:1;min-width:180px}
+  .refresh-btn{border:1.5px solid #ddd;background:#fff;border-radius:6px;padding:.55rem .9rem;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--gray-dark)}
+  .refresh-btn:hover{border-color:var(--red);color:var(--red)}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+  thead{background:var(--black);color:#fff}
+  th,td{text-align:left;padding:.7rem .9rem;font-size:.83rem;border-bottom:1px solid #eee}
+  tbody tr:hover{background:#fafafa}
+  .badge{display:inline-block;padding:2px 9px;border-radius:100px;font-size:.72rem;font-weight:700}
+  .badge.order{background:rgba(204,0,0,.1);color:var(--red)}
+  .badge.quote{background:rgba(212,175,55,.15);color:#a8842a}
+  .empty,.loading,.err{text-align:center;color:var(--gray-mid);padding:3rem 1rem;background:#fff;border-radius:10px}
+  .err{color:#c0392b}
+  .note{font-size:.75rem;color:var(--gray-mid);margin-top:1.25rem;line-height:1.6}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-icon">SP</div>
+    <div class="logo-text">Sardigi<span>Prints</span> Admin</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:1rem">
+    <div class="who" id="whoami"></div>
+    <button class="logout-btn" onclick="adminLogout()">Log out</button>
+  </div>
+</header>
+
+<main>
+  <div class="stats">
+    <div class="stat"><div class="num" id="statTotal">–</div><div class="label">Total requests</div></div>
+    <div class="stat"><div class="num" id="statOrders">–</div><div class="label">Orders</div></div>
+    <div class="stat"><div class="num" id="statQuotes">–</div><div class="label">Quotes</div></div>
+    <div class="stat"><div class="num" id="statToday">–</div><div class="label">Today</div></div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="searchInput" placeholder="Search by name, phone, email, or ref..." oninput="renderTable()">
+    <select id="typeFilter" onchange="renderTable()">
+      <option value="">All types</option>
+      <option value="Order">Orders</option>
+      <option value="Quote">Quotes</option>
+    </select>
+    <button class="refresh-btn" onclick="loadOrders()">Refresh</button>
+  </div>
+
+  <div id="tableWrap"><div class="loading">Loading requests...</div></div>
+
+  <p class="note">This dashboard pulls live from your shared Airtable base, so it shows every order and quote request submitted from any customer's device.</p>
+</main>
+
+<script>
+  const ADMIN_SESSION_KEY = 'sardigiAdminSession';
+  const AIRTABLE_BASE_ID = 'appndQsB1cYQ87EXg';
+  const AIRTABLE_TABLE = 'Requests';
+  const AIRTABLE_TOKEN = 'patrXqgkO1w2ZwfH5.1440012709a8819fae6507d30a8634f83a60458230186c28e547f3d2054d3574';
+  const AIRTABLE_API_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}`;
+
+  function getAdminSession(){
+    try{ return JSON.parse(sessionStorage.getItem(ADMIN_SESSION_KEY)); }
+    catch(e){ return null; }
+  }
+  const session = getAdminSession();
+  if(!session){
+    window.location.href = 'admin-login.html';
+  }
+  document.getElementById('whoami').textContent = 'Logged in as ' + (session ? session.user : '');
+
+  function adminLogout(){
+    sessionStorage.removeItem(ADMIN_SESSION_KEY);
+    window.location.href = 'admin-login.html';
+  }
+
+  let allOrders = [];
+
+  async function loadOrders(){
+    document.getElementById('tableWrap').innerHTML = '<div class="loading">Loading requests...</div>';
+    try{
+      let records = [];
+      let offset = null;
+      do{
+        const url = AIRTABLE_API_URL
+          + `?sort[0][field]=SubmittedAt&sort[0][direction]=desc`
+          + (offset ? `&offset=${offset}` : '');
+        const res = await fetch(url, { headers: { 'Authorization': 'Bearer ' + AIRTABLE_TOKEN } });
+        if(!res.ok) throw new Error('Airtable request failed: ' + res.status);
+        const data = await res.json();
+        records = records.concat(data.records || []);
+        offset = data.offset;
+      } while(offset);
+
+      allOrders = records.map(r => ({
+        type: r.fields.type || '',
+        ref: r.fields.ref || '',
+        name: r.fields.Name || '',
+        phone: r.fields.Phone || '',
+        email: r.fields.Email || '',
+        accountEmail: r.fields.AccountEmail || '',
+        service: r.fields.Service || '',
+        qty: r.fields.Qty || '',
+        size: r.fields.Size || '',
+        notes: r.fields.Notes || '',
+        submittedAt: r.fields.SubmittedAt ? new Date(r.fields.SubmittedAt).getTime() : 0
+      }));
+      renderTable();
+    } catch(e){
+      console.error(e);
+      document.getElementById('tableWrap').innerHTML = '<div class="err">Could not load requests from Airtable. Check your internet connection, or the token/base may need attention.</div>';
+    }
+  }
+
+  function renderStats(all){
+    const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+    document.getElementById('statTotal').textContent = all.length;
+    document.getElementById('statOrders').textContent = all.filter(o=>o.type==='Order').length;
+    document.getElementById('statQuotes').textContent = all.filter(o=>o.type==='Quote').length;
+    document.getElementById('statToday').textContent = all.filter(o=>o.submittedAt >= todayStart.getTime()).length;
+  }
+
+  function renderTable(){
+    renderStats(allOrders);
+
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    const typeFilter = document.getElementById('typeFilter').value;
+
+    let rows = allOrders.filter(o => {
+      if(typeFilter && o.type !== typeFilter) return false;
+      if(!q) return true;
+      const hay = [o.name,o.phone,o.email,o.ref,o.accountEmail].join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+
+    const wrap = document.getElementById('tableWrap');
+    if(!rows.length){
+      wrap.innerHTML = '<div class="empty">No requests found yet.</div>';
+      return;
+    }
+
+    wrap.innerHTML = `
+      <table>
+        <thead><tr>
+          <th>Type</th><th>Ref</th><th>Name</th><th>Phone</th><th>Email</th>
+          <th>Service</th><th>Qty</th><th>Size</th><th>Notes</th><th>Submitted</th>
+        </tr></thead>
+        <tbody>
+          ${rows.map(o => `
+            <tr>
+              <td><span class="badge ${(o.type||'').toLowerCase()}">${o.type}</span></td>
+              <td>${o.ref}</td>
+              <td>${o.name}</td>
+              <td>${o.phone}</td>
+              <td>${o.email || o.accountEmail}</td>
+              <td>${o.service}</td>
+              <td>${o.qty}</td>
+              <td>${o.size}</td>
+              <td>${(o.notes || '').slice(0,60)}</td>
+              <td>${o.submittedAt ? new Date(o.submittedAt).toLocaleString() : ''}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  if(session) loadOrders();
+</script>
+</body>
+</html>
