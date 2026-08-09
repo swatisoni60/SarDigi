@@ -2401,17 +2401,14 @@ function switchTab(tab){
 }
 
 /* ── RAZORPAY PAYMENT ── */
-// TODO: Replace with your live/test Razorpay Key ID from https://dashboard.razorpay.com/app/keys
-const RAZORPAY_KEY_ID = 'YOUR_RAZORPAY_KEY_ID';
+// TEST MODE key — swap for your live Key ID (starts with rzp_live_) before going live.
+// Get it from https://dashboard.razorpay.com/app/keys
+const RAZORPAY_KEY_ID = 'rzp_test_TNIjyd5mtwLZVH';
 
 function startRazorpayPayment(){
   const statusMsg = document.getElementById('payStatusMsg');
   const payBtn = document.getElementById('payNowBtn');
 
-  if(RAZORPAY_KEY_ID === 'YOUR_RAZORPAY_KEY_ID'){
-    alert('Payment is not fully set up yet — the Razorpay Key ID needs to be added in the code. See the TODO comment near RAZORPAY_KEY_ID.');
-    return;
-  }
   if(typeof Razorpay === 'undefined'){
     alert('Payment gateway failed to load. Please check your internet connection and try again.');
     return;
